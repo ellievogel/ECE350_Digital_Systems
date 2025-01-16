@@ -1,0 +1,304 @@
+$date
+	Thu Jan 16 14:59:33 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	100ps
+$end
+$scope module full_adder_tb $end
+$var wire 1 ! S1 $end
+$var wire 1 " S0 $end
+$var wire 1 # Cout $end
+$var reg 1 $ A0 $end
+$var reg 1 % A1 $end
+$var reg 1 & B0 $end
+$var reg 1 ' B1 $end
+$var reg 1 ( Cin $end
+$scope module adder $end
+$var wire 1 $ A0 $end
+$var wire 1 % A1 $end
+$var wire 1 & B0 $end
+$var wire 1 ' B1 $end
+$var wire 1 ( Cin $end
+$var wire 1 ! S1 $end
+$var wire 1 " S0 $end
+$var wire 1 ) Cout_one $end
+$var wire 1 # Cout $end
+$scope module adder_one $end
+$var wire 1 % A $end
+$var wire 1 ' B $end
+$var wire 1 # Cout $end
+$var wire 1 ! S $end
+$var wire 1 * and1 $end
+$var wire 1 + and2 $end
+$var wire 1 , and3 $end
+$var wire 1 ) Cin $end
+$upscope $end
+$scope module adder_zero $end
+$var wire 1 $ A $end
+$var wire 1 & B $end
+$var wire 1 ( Cin $end
+$var wire 1 ) Cout $end
+$var wire 1 " S $end
+$var wire 1 - and1 $end
+$var wire 1 . and2 $end
+$var wire 1 / and3 $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+0/
+0.
+0-
+0,
+0+
+0*
+0)
+0(
+0'
+0&
+0%
+0$
+0#
+0"
+0!
+$end
+#100
+1"
+1$
+#200
+0"
+1!
+0$
+1%
+#300
+1"
+1$
+#400
+0!
+0$
+0%
+1&
+#500
+1!
+1)
+0"
+1-
+1$
+#600
+0)
+0#
+1"
+0-
+1!
+0+
+0$
+1%
+#700
+1#
+1+
+0!
+1)
+0"
+1-
+1$
+#800
+0#
+1!
+0)
+0+
+0-
+0,
+0$
+0%
+0&
+1'
+#900
+1"
+1$
+#1000
+1#
+0"
+0!
+1*
+0$
+1%
+#1100
+1"
+1$
+#1200
+1,
+1#
+1)
+0!
+0*
+0"
+1/
+0$
+0%
+1&
+1(
+#1300
+1"
+1-
+1.
+1$
+#1400
+0"
+0-
+0.
+1!
+1*
+1+
+0$
+1%
+#1500
+1"
+1-
+1.
+1$
+#1600
+0!
+0)
+0#
+0.
+0+
+0-
+0/
+0*
+0,
+0$
+0%
+0&
+0'
+#1700
+1!
+1)
+0"
+1.
+1$
+#1800
+0)
+0#
+1"
+0.
+1!
+0+
+0$
+1%
+#1900
+1#
+1+
+0!
+1)
+0"
+1.
+1$
+#2000
+0#
+0.
+1!
+0+
+1/
+0$
+0%
+1&
+#2100
+1"
+1-
+1.
+1$
+#2200
+1#
+0"
+0-
+0.
+0!
+1+
+0$
+1%
+#2300
+1"
+1-
+1.
+1$
+#2400
+0#
+1!
+0)
+0+
+0-
+0,
+0"
+0.
+0/
+0$
+0%
+0&
+1'
+0(
+#2500
+1"
+1$
+#2600
+1#
+0"
+0!
+1*
+0$
+1%
+#2700
+1"
+1$
+#2800
+0#
+1!
+0*
+0$
+0%
+1&
+#2900
+1#
+1,
+0!
+1)
+0"
+1-
+1$
+#3000
+0,
+0)
+1"
+0-
+0!
+1*
+0+
+0$
+1%
+#3100
+1,
+1+
+1!
+1)
+0"
+1-
+1$
+#3200
+0!
+0)
+0#
+0+
+0-
+0*
+0,
+0$
+0%
+0&
+0'

@@ -1,0 +1,92 @@
+#! /usr/local/Cellar/icarus-verilog/12.0/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 10;
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/system.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/va_math.vpi";
+S_0x7fa956204080 .scope module, "full_adder_tb" "full_adder_tb" 2 3;
+ .timescale -9 -10;
+v0x6000027a0870_0 .var "A", 0 0;
+v0x6000027a0900_0 .var "B", 0 0;
+v0x6000027a0990_0 .var "Cin", 0 0;
+v0x6000027a0a20_0 .net "Cout", 0 0, L_0x600003ea43f0;  1 drivers
+v0x6000027a0ab0_0 .net "S", 0 0, L_0x600003ea4230;  1 drivers
+E_0x6000000ac940 .event anyedge, v0x6000027a0510_0, v0x6000027a0480_0, v0x6000027a03f0_0;
+S_0x7fa9562041f0 .scope module, "adder" "full_adder" 2 8, 3 3 0, S_0x7fa956204080;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "S";
+    .port_info 1 /OUTPUT 1 "Cout";
+    .port_info 2 /INPUT 1 "A";
+    .port_info 3 /INPUT 1 "B";
+    .port_info 4 /INPUT 1 "Cin";
+L_0x600003ea4230 .functor XOR 1, v0x6000027a0870_0, v0x6000027a0900_0, v0x6000027a0990_0, C4<0>;
+L_0x600003ea42a0 .functor AND 1, v0x6000027a0870_0, v0x6000027a0900_0, C4<1>, C4<1>;
+L_0x600003ea4310 .functor AND 1, v0x6000027a0870_0, v0x6000027a0990_0, C4<1>, C4<1>;
+L_0x600003ea4380 .functor AND 1, v0x6000027a0900_0, v0x6000027a0990_0, C4<1>, C4<1>;
+L_0x600003ea43f0 .functor OR 1, L_0x600003ea42a0, L_0x600003ea4310, L_0x600003ea4380, C4<0>;
+v0x6000027a03f0_0 .net "A", 0 0, v0x6000027a0870_0;  1 drivers
+v0x6000027a0480_0 .net "B", 0 0, v0x6000027a0900_0;  1 drivers
+v0x6000027a0510_0 .net "Cin", 0 0, v0x6000027a0990_0;  1 drivers
+v0x6000027a05a0_0 .net "Cout", 0 0, L_0x600003ea43f0;  alias, 1 drivers
+v0x6000027a0630_0 .net "S", 0 0, L_0x600003ea4230;  alias, 1 drivers
+v0x6000027a06c0_0 .net "and1", 0 0, L_0x600003ea42a0;  1 drivers
+v0x6000027a0750_0 .net "and2", 0 0, L_0x600003ea4310;  1 drivers
+v0x6000027a07e0_0 .net "and3", 0 0, L_0x600003ea4380;  1 drivers
+    .scope S_0x7fa956204080;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x6000027a0870_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x6000027a0900_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x6000027a0990_0, 0, 1;
+    %delay 800, 0;
+    %vpi_call 2 15 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_0x7fa956204080;
+T_1 ;
+    %delay 100, 0;
+    %load/vec4 v0x6000027a0870_0;
+    %inv;
+    %store/vec4 v0x6000027a0870_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0x7fa956204080;
+T_2 ;
+    %delay 200, 0;
+    %load/vec4 v0x6000027a0900_0;
+    %inv;
+    %store/vec4 v0x6000027a0900_0, 0, 1;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0x7fa956204080;
+T_3 ;
+    %delay 400, 0;
+    %load/vec4 v0x6000027a0990_0;
+    %inv;
+    %store/vec4 v0x6000027a0990_0, 0, 1;
+    %jmp T_3;
+    .thread T_3;
+    .scope S_0x7fa956204080;
+T_4 ;
+    %wait E_0x6000000ac940;
+    %delay 10, 0;
+    %vpi_call 2 29 "$display", "A:%b, B:%b, Cin:%b => S:%b, Cout:%b", v0x6000027a0870_0, v0x6000027a0900_0, v0x6000027a0990_0, v0x6000027a0ab0_0, v0x6000027a0a20_0 {0 0 0};
+    %jmp T_4;
+    .thread T_4, $push;
+    .scope S_0x7fa956204080;
+T_5 ;
+    %vpi_call 2 33 "$dumpfile", "full_adder_wave_file.vcd" {0 0 0};
+    %vpi_call 2 34 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x7fa956204080 {0 0 0};
+    %end;
+    .thread T_5;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "full_adder_tb.v";
+    "full_adder.v";

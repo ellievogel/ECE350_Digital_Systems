@@ -41,7 +41,7 @@ module full_adder_tb;
 
     initial begin
         $dumpfile("two_bit_adder_wave_file.vcd");
-        $dumpvars(0, two_bit_adder_tb);
+        $dumpvars(0, full_adder_tb);
     end
 
 endmodule

@@ -1,0 +1,100 @@
+#! /usr/local/Cellar/icarus-verilog/12.0/bin/vvp
+:ivl_version "12.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 10;
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/system.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/v2005_math.vpi";
+:vpi_module "/usr/local/Cellar/icarus-verilog/12.0/lib/ivl/va_math.vpi";
+S_0x7ff661304080 .scope module, "full_adder_tb" "full_adder_tb" 2 3;
+ .timescale -9 -10;
+v0x600001f70b40_0 .var "A", 0 0;
+v0x600001f70bd0_0 .var "B", 0 0;
+v0x600001f70c60_0 .var "Cin", 0 0;
+v0x600001f70cf0_0 .net "Cout", 0 0, L_0x600000674690;  1 drivers
+v0x600001f70d80_0 .net "S", 0 0, L_0x600000674700;  1 drivers
+E_0x600003874200 .event anyedge, v0x600001f705a0_0, v0x600001f70510_0, v0x600001f70480_0;
+S_0x7ff6613041f0 .scope module, "adder" "full_adder" 2 8, 3 3 0, S_0x7ff661304080;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "S";
+    .port_info 1 /OUTPUT 1 "Cout";
+    .port_info 2 /INPUT 1 "A";
+    .port_info 3 /INPUT 1 "B";
+    .port_info 4 /INPUT 1 "Cin";
+L_0x600000674380 .functor NAND 1, v0x600001f70b40_0, v0x600001f70bd0_0, C4<1>, C4<1>;
+L_0x6000006743f0 .functor NAND 1, v0x600001f70b40_0, L_0x600000674380, C4<1>, C4<1>;
+L_0x600000674460 .functor NAND 1, L_0x600000674380, v0x600001f70bd0_0, C4<1>, C4<1>;
+L_0x6000006744d0 .functor NAND 1, L_0x600000674460, L_0x6000006743f0, C4<1>, C4<1>;
+L_0x600000674540 .functor NAND 1, L_0x6000006744d0, v0x600001f70c60_0, C4<1>, C4<1>;
+L_0x6000006745b0 .functor NAND 1, L_0x6000006744d0, L_0x600000674540, C4<1>, C4<1>;
+L_0x600000674620 .functor NAND 1, L_0x600000674540, v0x600001f70c60_0, C4<1>, C4<1>;
+L_0x600000674690 .functor NAND 1, L_0x600000674380, L_0x600000674540, C4<1>, C4<1>;
+L_0x600000674700 .functor NAND 1, L_0x6000006745b0, L_0x600000674620, C4<1>, C4<1>;
+v0x600001f70480_0 .net "A", 0 0, v0x600001f70b40_0;  1 drivers
+v0x600001f70510_0 .net "B", 0 0, v0x600001f70bd0_0;  1 drivers
+v0x600001f705a0_0 .net "Cin", 0 0, v0x600001f70c60_0;  1 drivers
+v0x600001f70630_0 .net "Cout", 0 0, L_0x600000674690;  alias, 1 drivers
+v0x600001f706c0_0 .net "S", 0 0, L_0x600000674700;  alias, 1 drivers
+v0x600001f70750_0 .net "r_1", 0 0, L_0x600000674380;  1 drivers
+v0x600001f707e0_0 .net "r_2", 0 0, L_0x6000006743f0;  1 drivers
+v0x600001f70870_0 .net "r_3", 0 0, L_0x600000674460;  1 drivers
+v0x600001f70900_0 .net "r_4", 0 0, L_0x6000006744d0;  1 drivers
+v0x600001f70990_0 .net "r_5", 0 0, L_0x600000674540;  1 drivers
+v0x600001f70a20_0 .net "r_6", 0 0, L_0x6000006745b0;  1 drivers
+v0x600001f70ab0_0 .net "r_7", 0 0, L_0x600000674620;  1 drivers
+    .scope S_0x7ff661304080;
+T_0 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x600001f70b40_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x600001f70bd0_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x600001f70c60_0, 0, 1;
+    %delay 800, 0;
+    %vpi_call 2 15 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+    .scope S_0x7ff661304080;
+T_1 ;
+    %delay 100, 0;
+    %load/vec4 v0x600001f70b40_0;
+    %inv;
+    %store/vec4 v0x600001f70b40_0, 0, 1;
+    %jmp T_1;
+    .thread T_1;
+    .scope S_0x7ff661304080;
+T_2 ;
+    %delay 200, 0;
+    %load/vec4 v0x600001f70bd0_0;
+    %inv;
+    %store/vec4 v0x600001f70bd0_0, 0, 1;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0x7ff661304080;
+T_3 ;
+    %delay 400, 0;
+    %load/vec4 v0x600001f70c60_0;
+    %inv;
+    %store/vec4 v0x600001f70c60_0, 0, 1;
+    %jmp T_3;
+    .thread T_3;
+    .scope S_0x7ff661304080;
+T_4 ;
+    %wait E_0x600003874200;
+    %delay 10, 0;
+    %vpi_call 2 29 "$display", "A:%b, B:%b, Cin:%b => S:%b, Cout:%b", v0x600001f70b40_0, v0x600001f70bd0_0, v0x600001f70c60_0, v0x600001f70d80_0, v0x600001f70cf0_0 {0 0 0};
+    %jmp T_4;
+    .thread T_4, $push;
+    .scope S_0x7ff661304080;
+T_5 ;
+    %vpi_call 2 33 "$dumpfile", "full_adder_wave_file.vcd" {0 0 0};
+    %vpi_call 2 34 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x7ff661304080 {0 0 0};
+    %end;
+    .thread T_5;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "1_bit_adder_tb.v";
+    "1_bit_adder.v";

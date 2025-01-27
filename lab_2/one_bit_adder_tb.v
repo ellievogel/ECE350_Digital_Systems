@@ -1,11 +1,11 @@
 `timescale 1 ns / 100 ps
 
-module full_adder_tb;
+module one_bit_adder_tb;
 
     reg A, B, Cin;
     wire S, Cout;
 
-    full_adder adder(.A(A), .B(B), .Cin(Cin), .S(S), .Cout(Cout));
+    one_bit_adder adder(.A(A), .B(B), .Cin(Cin), .S(S), .Cout(Cout));
 
     initial begin
         A=0;
@@ -30,8 +30,8 @@ module full_adder_tb;
     end
 
     initial begin
-        $dumpfile("full_adder_wave_file.vcd");
-        $dumpvars(0, full_adder_tb);
+        $dumpfile("one_bit_adder_wave_file.vcd");
+        $dumpvars(0, one_bit_adder_tb);
     end
 
 endmodule

@@ -1,6 +1,6 @@
 // Author: Ellie Vogel (eov2)
 
-module full_adder(S, Cout, A, B, Cin);
+module one_bit_adder(S, Cout, A, B, Cin);
 
 input A, B, Cin;
 output S, Cout;

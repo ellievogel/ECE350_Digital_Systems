@@ -1,0 +1,618 @@
+$date
+	Mon Jan 27 14:47:10 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	100ps
+$end
+$scope module cla_block_tb $end
+$var wire 8 ! Gs [7:0] $end
+$var wire 8 " Ps [7:0] $end
+$var wire 8 # S [7:0] $end
+$var wire 1 $ Cout $end
+$var reg 8 % A [7:0] $end
+$var reg 8 & B [7:0] $end
+$var reg 1 ' Cin $end
+$scope module cla $end
+$var wire 8 ( A [7:0] $end
+$var wire 8 ) B [7:0] $end
+$var wire 1 ' Cin $end
+$var wire 1 * Cin_P0P1P2P3P4 $end
+$var wire 1 + Cin_P0P1P2P3P4P5 $end
+$var wire 1 , Cin_P0P1P2P3P4P5P6 $end
+$var wire 1 - Cin_P0P1P2P3P4P5P6P7 $end
+$var wire 1 . Cin_P0_P1_P2 $end
+$var wire 1 $ Cout $end
+$var wire 1 / G0_P1P2P3P4 $end
+$var wire 1 0 G0_P1P2P3P4P5 $end
+$var wire 1 1 G0_P1P2P3P4P5P6 $end
+$var wire 1 2 G0_P1P2P3P4P5P6P7 $end
+$var wire 1 3 G0_P1_P2 $end
+$var wire 1 4 G1_P2 $end
+$var wire 1 5 G1_P2P3P4 $end
+$var wire 1 6 G1_P2P3P4P5 $end
+$var wire 1 7 G1_P2P3P4P5P6 $end
+$var wire 1 8 G1_P2P3P4P5P6P7 $end
+$var wire 1 9 G2_P3P4 $end
+$var wire 1 : G2_P3P4P5 $end
+$var wire 1 ; G2_P3P4P5P6 $end
+$var wire 1 < G2_P3P4P5P6P7 $end
+$var wire 1 = G3_P4 $end
+$var wire 1 > G3_P4P5 $end
+$var wire 1 ? G3_P4P5P6 $end
+$var wire 1 @ G3_P4P5P6P7 $end
+$var wire 1 A G4_P5 $end
+$var wire 1 B G4_P5P6 $end
+$var wire 1 C G4_P5P6P7 $end
+$var wire 1 D G5_P6 $end
+$var wire 1 E G5_P6P7 $end
+$var wire 1 F G6_P7 $end
+$var wire 8 G Gs [7:0] $end
+$var wire 1 H P0_C0 $end
+$var wire 1 I P1_C1 $end
+$var wire 8 J Ps [7:0] $end
+$var wire 1 K cin_1 $end
+$var wire 1 L cin_2 $end
+$var wire 1 M cin_3 $end
+$var wire 1 N cin_4 $end
+$var wire 1 O cin_5 $end
+$var wire 1 P cin_6 $end
+$var wire 1 Q cin_7 $end
+$var wire 8 R S [7:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx0 R
+xQ
+xP
+xO
+xN
+xM
+xL
+xK
+bz J
+xI
+0H
+bz G
+xF
+xE
+xD
+zC
+xB
+xA
+x@
+z?
+x>
+x=
+x<
+x;
+z:
+x9
+x8
+x7
+x6
+z5
+x4
+x3
+x2
+x1
+x0
+x/
+0.
+0-
+0,
+0+
+0*
+b0 )
+b0 (
+0'
+b0 &
+b0 %
+x$
+bx0 #
+bz "
+bz !
+$end
+#100
+bx1 #
+bx1 R
+b10001 %
+b10001 (
+#200
+bx0 #
+bx0 R
+b100010 %
+b100010 (
+b100010 &
+b100010 )
+#300
+bx1 #
+bx1 R
+b110011 %
+b110011 (
+#400
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b1000100 %
+b1000100 (
+b1000100 &
+b1000100 )
+1'
+#500
+bx0 #
+bx0 R
+b1010101 %
+b1010101 (
+#600
+bx1 #
+bx1 R
+b1100110 %
+b1100110 (
+b1100110 &
+b1100110 )
+#700
+bx0 #
+bx0 R
+b1110111 %
+b1110111 (
+#800
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b10001000 %
+b10001000 (
+b10001000 &
+b10001000 )
+0'
+#900
+bx1 #
+bx1 R
+b10011001 %
+b10011001 (
+#1000
+bx0 #
+bx0 R
+b10101010 %
+b10101010 (
+b10101010 &
+b10101010 )
+#1100
+bx1 #
+bx1 R
+b10111011 %
+b10111011 (
+#1200
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b11001100 %
+b11001100 (
+b11001100 &
+b11001100 )
+1'
+#1300
+bx0 #
+bx0 R
+b11011101 %
+b11011101 (
+#1400
+bx1 #
+bx1 R
+b11101110 %
+b11101110 (
+b11101110 &
+b11101110 )
+#1500
+bx0 #
+bx0 R
+b11111111 %
+b11111111 (
+#1600
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b10000 %
+b10000 (
+b10000 &
+b10000 )
+0'
+#1700
+bx1 #
+bx1 R
+b100001 %
+b100001 (
+#1800
+bx0 #
+bx0 R
+b110010 %
+b110010 (
+b110010 &
+b110010 )
+#1900
+bx1 #
+bx1 R
+b1000011 %
+b1000011 (
+#2000
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b1010100 %
+b1010100 (
+b1010100 &
+b1010100 )
+1'
+#2100
+bx0 #
+bx0 R
+b1100101 %
+b1100101 (
+#2200
+bx1 #
+bx1 R
+b1110110 %
+b1110110 (
+b1110110 &
+b1110110 )
+#2300
+bx0 #
+bx0 R
+b10000111 %
+b10000111 (
+#2400
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b10011000 %
+b10011000 (
+b10011000 &
+b10011000 )
+0'
+#2500
+bx1 #
+bx1 R
+b10101001 %
+b10101001 (
+#2600
+bx0 #
+bx0 R
+b10111010 %
+b10111010 (
+b10111010 &
+b10111010 )
+#2700
+bx1 #
+bx1 R
+b11001011 %
+b11001011 (
+#2800
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b11011100 %
+b11011100 (
+b11011100 &
+b11011100 )
+1'
+#2900
+bx0 #
+bx0 R
+b11101101 %
+b11101101 (
+#3000
+bx1 #
+bx1 R
+b11111110 %
+b11111110 (
+b11111110 &
+b11111110 )
+#3100
+bx0 #
+bx0 R
+b1111 %
+b1111 (
+#3200
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b100000 %
+b100000 (
+b100000 &
+b100000 )
+0'
+#3300
+bx1 #
+bx1 R
+b110001 %
+b110001 (
+#3400
+bx0 #
+bx0 R
+b1000010 %
+b1000010 (
+b1000010 &
+b1000010 )
+#3500
+bx1 #
+bx1 R
+b1010011 %
+b1010011 (
+#3600
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b1100100 %
+b1100100 (
+b1100100 &
+b1100100 )
+1'
+#3700
+bx0 #
+bx0 R
+b1110101 %
+b1110101 (
+#3800
+bx1 #
+bx1 R
+b10000110 %
+b10000110 (
+b10000110 &
+b10000110 )
+#3900
+bx0 #
+bx0 R
+b10010111 %
+b10010111 (
+#4000
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b10101000 %
+b10101000 (
+b10101000 &
+b10101000 )
+0'
+#4100
+bx1 #
+bx1 R
+b10111001 %
+b10111001 (
+#4200
+bx0 #
+bx0 R
+b11001010 %
+b11001010 (
+b11001010 &
+b11001010 )
+#4300
+bx1 #
+bx1 R
+b11011011 %
+b11011011 (
+#4400
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b11101100 %
+b11101100 (
+b11101100 &
+b11101100 )
+1'
+#4500
+bx0 #
+bx0 R
+b11111101 %
+b11111101 (
+#4600
+bx1 #
+bx1 R
+b1110 %
+b1110 (
+b1110 &
+b1110 )
+#4700
+bx0 #
+bx0 R
+b11111 %
+b11111 (
+#4800
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b110000 %
+b110000 (
+b110000 &
+b110000 )
+0'
+#4900
+bx1 #
+bx1 R
+b1000001 %
+b1000001 (
+#5000
+bx0 #
+bx0 R
+b1010010 %
+b1010010 (
+b1010010 &
+b1010010 )
+#5100
+bx1 #
+bx1 R
+b1100011 %
+b1100011 (
+#5200
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b1110100 %
+b1110100 (
+b1110100 &
+b1110100 )
+1'
+#5300
+bx0 #
+bx0 R
+b10000101 %
+b10000101 (
+#5400
+bx1 #
+bx1 R
+b10010110 %
+b10010110 (
+b10010110 &
+b10010110 )
+#5500
+bx0 #
+bx0 R
+b10100111 %
+b10100111 (
+#5600
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b10111000 %
+b10111000 (
+b10111000 &
+b10111000 )
+0'
+#5700
+bx1 #
+bx1 R
+b11001001 %
+b11001001 (
+#5800
+bx0 #
+bx0 R
+b11011010 %
+b11011010 (
+b11011010 &
+b11011010 )
+#5900
+bx1 #
+bx1 R
+b11101011 %
+b11101011 (
+#6000
+x*
+x+
+x,
+x-
+xH
+x.
+bx1 #
+bx1 R
+b11111100 %
+b11111100 (
+b11111100 &
+b11111100 )
+1'
+#6100
+bx0 #
+bx0 R
+b1101 %
+b1101 (
+#6200
+bx1 #
+bx1 R
+b11110 %
+b11110 (
+b11110 &
+b11110 )
+#6300
+bx0 #
+bx0 R
+b101111 %
+b101111 (
+#6400
+0*
+0+
+0,
+0-
+0H
+0.
+bx0 #
+bx0 R
+b1000000 %
+b1000000 (
+b1000000 &
+b1000000 )
+0'

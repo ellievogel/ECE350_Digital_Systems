@@ -1,0 +1,13 @@
+alu.v
+alu_tb.v
+and_32_bits.v
+cla.v
+cla_block.v
+cla_block_tb.v
+mux_2.v
+mux_8.v
+not.v
+or_32_bits.v
+shift_left.v
+shift_right.v
+subtract.v

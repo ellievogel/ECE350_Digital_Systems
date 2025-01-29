@@ -20,8 +20,7 @@ module shift_left(in, shiftamount, out);
 
     assign shifted8 = {out2[23:0], 8'b0};
     mux_2 mux4(.out(out3), .select(shiftamount[3]), .in0(out2), .in1(shifted8));
-
-    // FIXED: Use `out3` instead of `out2`
+    
     assign shifted16 = {out3[15:0], 16'b0};
     mux_2 mux5(.out(out), .select(shiftamount[4]), .in0(out3), .in1(shifted16));
 

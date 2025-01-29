@@ -20,7 +20,6 @@ module shift_right(in, shiftamount, out);
     assign shifted8 = {{8{out2[31]}}, out2[31:8]};
     mux_2 mux4(.out(out3), .select(shiftamount[3]), .in0(out2), .in1(shifted8));
 
-    // FIXED: Use shiftamount[4] and the correct shifted16 value
     assign shifted16 = {{16{out3[31]}}, out3[31:16]};
     mux_2 mux5(.out(out), .select(shiftamount[4]), .in0(out3), .in1(shifted16));
 

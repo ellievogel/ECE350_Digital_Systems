@@ -1,10 +1,10 @@
 // Author: Ellie Vogel (eov2)
 
-module subtract(S, Cout, overflow, NE, A, B);
+module subtract(S, Cout, overflow, A, B);
     wire [31:0] inverted_b;
     input [31:0] A, B;
     output [31:0] S;
-    output Cout, NE;
+    output Cout;
     wire Cin;
 
     assign Cin = 1'b1;

@@ -1,0 +1,7 @@
+comp_2.v
+comp_2_tb.v
+comp_8.v
+comp_8_tb.v
+mux_2.v
+mux_4.v
+mux_8.v

@@ -1,83 +1,58 @@
+`timescale 1 ns / 100 ps
 module comp_8_tb;
 
-    // Declare inputs and outputs for the 8-bit comparator
     reg EQ1, GT1;
+    integer x; 
     reg [7:0] A, B;
-    wire EQ0, GT0;
+    wire EQ0, GT0; 
 
-    // Instantiate the 8-bit comparator
-    comp_8 uut(
-        .EQ1(EQ1), .GT1(GT1), .A(A), .B(B),
-        .EQ0(EQ0), .GT0(GT0)
-    );
+    comp_8 comp(.EQ1(EQ1), .GT1(GT1), .A(A), .B(B), .EQ0(EQ0), .GT0(GT0)); 
 
-    // Test procedure
     initial begin
         // Initialize inputs
-        EQ1 = 1'b1;
+        EQ1 = 1'b1;  
         GT1 = 1'b0;
-
-        // Test case 1: A = 8'b00000000, B = 8'b00000000 (Equal)
         A = 8'b00000000;
         B = 8'b00000000;
-        #10; // Wait for the comparator to evaluate
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 2: A = 8'b01010101, B = 8'b01010101 (Equal)
-        A = 8'b01010101;
-        B = 8'b01010101;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 3: A = 8'b11110000, B = 8'b00001111 (A > B)
-        A = 8'b11110000;
-        B = 8'b00001111;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 4: A = 8'b00001111, B = 8'b11110000 (A < B)
-        A = 8'b00001111;
-        B = 8'b11110000;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 5: A = 8'b10101010, B = 8'b01010101 (A > B)
-        A = 8'b10101010;
-        B = 8'b01010101;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 6: A = 8'b11111111, B = 8'b00000000 (A > B)
-        A = 8'b11111111;
-        B = 8'b00000000;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 7: A = 8'b00000000, B = 8'b11111111 (A < B)
-        A = 8'b00000000;
-        B = 8'b11111111;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-
-        // Test case 8: A = 8'b01010101, B = 8'b10101010 (A < B)
-        A = 8'b01010101;
-        B = 8'b10101010;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
+        x = 3'd0;
         
-        // Test case 9: A = 8'b11100000, B = 8'b11100000 (Equal)
-        A = 8'b11100000;
-        B = 8'b11100000;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
-        
-        // Test case 10: A = 8'b10010010, B = 8'b01101101 (A > B)
-        A = 8'b10010010;
-        B = 8'b01101101;
-        #10;
-        $display("A = %b, B = %b => EQ0 = %b, GT0 = %b", A, B, EQ0, GT0);
+        // Test equality cases
+        for (A = 0; x < 256; A = A + 51) begin  // Test every 51st value
+            B = A;  // Test equality
+            #10;
+            
+            B = A + 1;  // Test A < B
+            #10;
+            
+            B = A - 1;  // Test A > B
+            #10;
 
-        // Finish simulation
+            x = x + 51;
+        end
+
+        // Test cascade inputs
+        A = 8'h55; B = 8'h55;  // Equal values
+        EQ1 = 1'b0; GT1 = 1'b0; #10;  // Test LT cascade
+        EQ1 = 1'b0; GT1 = 1'b1; #10;  // Test GT cascade
+        EQ1 = 1'b1; GT1 = 1'b0; #10;  // Test EQ cascade
+
+        // Display test completion
+        $display("Test completed");
         $finish;
     end
+
+    // Monitor for failures
+    always @(EQ0 or GT0) begin
+        // Check equality failure
+        if ((EQ1 == 1 && GT1 == 0 && EQ0 == 1) && (A != B)) begin
+            $display("Failed Equality: A=%h B=%h are not equal but EQ0=1 at time%0t", A, B, $time);
+        end
+    end
+
+    // Generate VCD file
+    initial begin
+        $dumpfile("comp_8_dump.vcd");
+        $dumpvars(0, comp_8_tb);
+    end
+
 endmodule

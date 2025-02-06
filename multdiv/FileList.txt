@@ -1,0 +1,12 @@
+and_32_bits.v
+cla.v
+cla_block.v
+decoder32.v
+dffe_ref.v
+multdiv.v
+multdiv_tb.v
+mux_2.v
+or_32_bits.v
+regfile.v
+register.v
+tristate.v

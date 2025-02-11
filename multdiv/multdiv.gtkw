@@ -1,0 +1,62 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Mon Feb 10 23:42:12 2025
+[*]
+[dumpfile] "/Users/ellievogel/Desktop/350/multdiv/multbasic.vcd"
+[dumpfile_mtime] "Mon Feb 10 23:29:45 2025"
+[dumpfile_size] 169562
+[savefile] "/Users/ellievogel/Desktop/350/multdiv/multdiv.gtkw"
+[timestart] 0
+[size] 1440 791
+[pos] -1 -1
+*-15.795551 40000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] multdiv_tb.
+[treeopen] multdiv_tb.tester.
+[sst_width] 240
+[signals_width] 292
+[sst_expanded] 1
+[sst_vpaned_height] 321
+@28
+multdiv_tb.tester.ctrl_MULT
+@22
+multdiv_tb.tester.product_and_multiplier_in[65:0]
+multdiv_tb.tester.product_and_multiplier_out[65:0]
+@420
+multdiv_tb.tester.data_operandA[31:0]
+multdiv_tb.tester.data_operandB[31:0]
+@28
+multdiv_tb.tester.data_resultRDY
+@22
+multdiv_tb.tester.count[4:0]
+@28
+multdiv_tb.tester.cla_cout
+@23
+multdiv_tb.tester.cla_sum[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

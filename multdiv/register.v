@@ -1,7 +1,7 @@
 // Author: Ellie Vogel (eov2)
 // dffe_ref (q, d, clk, en, clr);
 
-module register #(parameter WIDTH = 65)(dataIn, clk, writeEnable, reset, dataOut);
+module register #(parameter WIDTH = 66)(dataIn, clk, writeEnable, reset, dataOut);
 
     input[WIDTH-1:0] dataIn;
     input clk, writeEnable, reset;

@@ -1,6 +1,7 @@
 and_32_bits.v
 cla.v
 cla_block.v
+counter.v
 decoder32.v
 dffe_ref.v
 multdiv.v
@@ -9,4 +10,7 @@ mux_2.v
 or_32_bits.v
 regfile.v
 register.v
+shift_left.v
+shift_right.v
+t_flipflop.v
 tristate.v

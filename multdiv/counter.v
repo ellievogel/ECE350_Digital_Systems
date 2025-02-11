@@ -1,6 +1,6 @@
 module counter64(clock, reset, count);
     input clock, reset;
-    output[4:0] count;
+    output [4:0] count;
 
     t_flipflop t1(.toggle(1'b1), .clk(clock), .clear(reset), .q(count[0]));
     t_flipflop t2(.toggle(count[0]), .clk(clock), .clear(reset), .q(count[1]));

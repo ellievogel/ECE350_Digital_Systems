@@ -6,6 +6,7 @@ decoder32.v
 dffe_ref.v
 multdiv.v
 multdiv_tb.v
+multiply.v
 mux_2.v
 or_32_bits.v
 regfile.v

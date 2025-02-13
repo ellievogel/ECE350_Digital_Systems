@@ -4,6 +4,7 @@ cla_block.v
 counter.v
 decoder32.v
 dffe_ref.v
+divide.v
 multdiv.v
 multdiv_tb.v
 multiply.v

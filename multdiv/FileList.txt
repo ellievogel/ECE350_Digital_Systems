@@ -4,6 +4,7 @@ cla_block.v
 counter.v
 decoder32.v
 dffe_ref.v
+divide.v
 multdiv.v
 multdiv_tb.v
 multiply.v
@@ -13,5 +14,6 @@ regfile.v
 register.v
 shift_left.v
 shift_right.v
+sl_latch.v
 t_flipflop.v
 tristate.v

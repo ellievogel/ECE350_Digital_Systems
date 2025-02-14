@@ -1,7 +1,5 @@
 // Author: Ellie Vogel (eov2)
 
-// BAD COMMIT
-
 module and_32_bits(result, A, B);
 
     input [31:0] A, B;

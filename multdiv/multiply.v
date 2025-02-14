@@ -12,7 +12,7 @@ module multiplier(
 
     wire [31:0] multiplier;
     wire start, shift, nothing;
-    wire [4:0] count;
+    wire [5:0] count;
 
     wire [65:0] product_and_multiplier_in, product_and_multiplier_out;
 
@@ -111,7 +111,7 @@ module multiplier(
     wire sign_exception;
     assign sign_exception = (data_operandA[31] & data_operandB[31] & data_result[31]) || (!data_operandA[31] & !data_operandB[31] & data_result[31]);
     assign data_exception = (product_and_multiplier_out[64] & (!(&product_and_multiplier_out[63:32]))) || (!product_and_multiplier_out[64] & (|product_and_multiplier_out[63:32])) || sign_exception;
-    assign data_resultRDY = (count[4] & ~count[3] & ~count[2] & ~count[1] & ~count[0]) ? 1'b1 : 1'b0;
+    assign data_resultRDY = (~count[5] & count[4] & ~count[3] & ~count[2] & ~count[1] & ~count[0]) ? 1'b1 : 1'b0;
 
 
 endmodule

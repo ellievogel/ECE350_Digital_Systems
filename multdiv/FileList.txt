@@ -14,5 +14,6 @@ regfile.v
 register.v
 shift_left.v
 shift_right.v
+sl_latch.v
 t_flipflop.v
 tristate.v

@@ -1,0 +1,253 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Tue Feb 11 21:58:23 2025
+[*]
+[dumpfile] "/Users/ellievogel/Desktop/350/multdiv/multbasic.vcd"
+[dumpfile_mtime] "Tue Feb 11 21:53:07 2025"
+[dumpfile_size] 780621
+[savefile] "/Users/ellievogel/Desktop/350/multdiv/multdiv.gtkw"
+[timestart] 0
+[size] 1416 791
+[pos] 25 -1
+*-15.795551 60000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] multdiv_tb.
+[treeopen] multdiv_tb.tester.
+[sst_width] 240
+[signals_width] 843
+[sst_expanded] 1
+[sst_vpaned_height] 538
+@28
+multdiv_tb.tester.ctrl_MULT
+@c00028
+multdiv_tb.tester.product_and_multiplier_in[65:0]
+@28
+(0)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(1)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(2)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(3)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(4)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(5)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(6)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(7)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(8)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(9)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(10)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(11)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(12)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(13)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(14)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(15)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(16)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(17)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(18)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(19)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(20)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(21)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(22)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(23)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(24)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(25)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(26)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(27)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(28)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(29)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(30)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(31)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(32)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(33)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(34)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(35)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(36)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(37)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(38)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(39)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(40)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(41)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(42)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(43)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(44)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(45)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(46)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(47)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(48)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(49)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(50)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(51)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(52)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(53)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(54)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(55)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(56)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(57)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(58)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(59)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(60)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(61)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(62)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(63)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(64)multdiv_tb.tester.product_and_multiplier_in[65:0]
+(65)multdiv_tb.tester.product_and_multiplier_in[65:0]
+@1401200
+-group_end
+@c00028
+multdiv_tb.tester.product_and_multiplier_out[65:0]
+@28
+(0)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(1)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(2)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(3)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(4)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(5)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(6)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(7)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(8)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(9)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(10)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(11)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(12)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(13)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(14)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(15)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(16)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(17)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(18)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(19)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(20)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(21)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(22)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(23)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(24)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(25)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(26)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(27)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(28)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(29)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(30)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(31)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(32)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(33)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(34)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(35)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(36)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(37)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(38)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(39)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(40)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(41)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(42)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(43)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(44)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(45)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(46)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(47)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(48)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(49)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(50)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(51)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(52)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(53)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(54)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(55)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(56)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(57)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(58)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(59)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(60)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(61)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(62)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(63)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(64)multdiv_tb.tester.product_and_multiplier_out[65:0]
+(65)multdiv_tb.tester.product_and_multiplier_out[65:0]
+@1401200
+-group_end
+@28
+multdiv_tb.tester.shift_right[65:0]
+@c00028
+multdiv_tb.tester.subtractor_result[31:0]
+@28
+(0)multdiv_tb.tester.subtractor_result[31:0]
+(1)multdiv_tb.tester.subtractor_result[31:0]
+(2)multdiv_tb.tester.subtractor_result[31:0]
+(3)multdiv_tb.tester.subtractor_result[31:0]
+(4)multdiv_tb.tester.subtractor_result[31:0]
+(5)multdiv_tb.tester.subtractor_result[31:0]
+(6)multdiv_tb.tester.subtractor_result[31:0]
+(7)multdiv_tb.tester.subtractor_result[31:0]
+(8)multdiv_tb.tester.subtractor_result[31:0]
+(9)multdiv_tb.tester.subtractor_result[31:0]
+(10)multdiv_tb.tester.subtractor_result[31:0]
+(11)multdiv_tb.tester.subtractor_result[31:0]
+(12)multdiv_tb.tester.subtractor_result[31:0]
+(13)multdiv_tb.tester.subtractor_result[31:0]
+(14)multdiv_tb.tester.subtractor_result[31:0]
+(15)multdiv_tb.tester.subtractor_result[31:0]
+(16)multdiv_tb.tester.subtractor_result[31:0]
+(17)multdiv_tb.tester.subtractor_result[31:0]
+(18)multdiv_tb.tester.subtractor_result[31:0]
+(19)multdiv_tb.tester.subtractor_result[31:0]
+(20)multdiv_tb.tester.subtractor_result[31:0]
+(21)multdiv_tb.tester.subtractor_result[31:0]
+(22)multdiv_tb.tester.subtractor_result[31:0]
+(23)multdiv_tb.tester.subtractor_result[31:0]
+(24)multdiv_tb.tester.subtractor_result[31:0]
+(25)multdiv_tb.tester.subtractor_result[31:0]
+(26)multdiv_tb.tester.subtractor_result[31:0]
+(27)multdiv_tb.tester.subtractor_result[31:0]
+(28)multdiv_tb.tester.subtractor_result[31:0]
+(29)multdiv_tb.tester.subtractor_result[31:0]
+(30)multdiv_tb.tester.subtractor_result[31:0]
+(31)multdiv_tb.tester.subtractor_result[31:0]
+@1401200
+-group_end
+@29
+multdiv_tb.tester.operation_output[31:0]
+@28
+multdiv_tb.tester.combined[65:0]
+multdiv_tb.tester.shift
+@420
+multdiv_tb.tester.data_operandA[31:0]
+multdiv_tb.tester.data_operandB[31:0]
+@28
+multdiv_tb.tester.data_resultRDY
+@c00024
+multdiv_tb.tester.count[4:0]
+@28
+(0)multdiv_tb.tester.count[4:0]
+(1)multdiv_tb.tester.count[4:0]
+(2)multdiv_tb.tester.count[4:0]
+(3)multdiv_tb.tester.count[4:0]
+(4)multdiv_tb.tester.count[4:0]
+@1401200
+-group_end
+@28
+multdiv_tb.tester.subtract
+multdiv_tb.tester.nothing
+multdiv_tb.tester.start
+[pattern_trace] 1
+[pattern_trace] 0

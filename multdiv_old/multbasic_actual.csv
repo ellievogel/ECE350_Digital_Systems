@@ -1,0 +1,19 @@
+OperandA, OperandB, Result, Exception
+          4,          8,Timed Out, Timed Out
+          1,          2,Timed Out, Timed Out
+          2,         -4,Timed Out, Timed Out
+         -8,         16,Timed Out, Timed Out
+         16,         32,Timed Out, Timed Out
+         32,        -64,Timed Out, Timed Out
+         64,        128,Timed Out, Timed Out
+       -128,        256,Timed Out, Timed Out
+        256,        512,Timed Out, Timed Out
+        512,      -1024,Timed Out, Timed Out
+       1024,       2048,Timed Out, Timed Out
+      -2048,       4096,Timed Out, Timed Out
+       4096,       8192,Timed Out, Timed Out
+       8192,     -16384,Timed Out, Timed Out
+      16384,      32768,Timed Out, Timed Out
+     -32768,      65536,Timed Out, Timed Out
+      65536,     131072,Timed Out, Timed Out
+-2147483648,          2,Timed Out, Timed Out

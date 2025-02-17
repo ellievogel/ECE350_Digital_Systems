@@ -18,8 +18,6 @@ This implementation uses a modified Booth's Multiplication Algorithm to perform 
 
 ### Implementation Details
 
-The multiplication process follows these steps:
-
 1. Initial setup:
 
    - Load multiplier (operandB) into the lower bits of the combined register
@@ -42,10 +40,6 @@ The multiplication process follows these steps:
 
 ## Divider
 
-### Design Overview
-
-This implementation uses a non-restoring division algorithm to perform signed 32-bit division. The design employs a sequential approach that processes one bit per clock cycle, completing the division operation in 33 cycles.
-
 ### Key Components
 
 - **64-bit Combined Register**: Holds both the remainder (upper 32 bits) and the developing quotient (lower 32 bits)
@@ -54,8 +48,6 @@ This implementation uses a non-restoring division algorithm to perform signed 32
 - **Sign Handling Logic**: Converts operands to absolute values for processing and adjusts the final result's sign
 
 ### Implementation Details
-
-The division process follows these steps:
 
 1. Initial setup:
 

@@ -23,9 +23,52 @@ module divider(
         .count(count)
     );
 
-    wire [31:0] abs_operandA, abs_operandB;
-    assign abs_operandA = data_operandA[31] ? (~data_operandA + 1'b1) : data_operandA;
-    assign abs_operandB = data_operandB[31] ? (~data_operandB + 1'b1) : data_operandB;
+    // Absolute value calculation for operand A
+    wire [31:0] abs_operandA, abs_operandA_neg;
+    wire [31:0] negatea;
+    wire negatea_cout, negatea_overflow;
+    
+    assign negatea = ~data_operandA;
+    cla negate_A(
+        .S(abs_operandA_neg),
+        .Cout(negatea_cout),
+        .overflow(negatea_overflow),
+        .A(negatea),
+        .B(32'b1),
+        .Cin(1'b0)
+    );
+    assign abs_operandA = data_operandA[31] ? abs_operandA_neg : data_operandA;
+
+    // Absolute value calculation for operand B
+    wire [31:0] abs_operandB, abs_operandB_neg;
+    wire [31:0] negateb;
+    wire negateb_cout, negateb_overflow;
+    
+    assign negateb = ~data_operandB;
+    cla negate_B(
+        .S(abs_operandB_neg),
+        .Cout(negateb_cout),
+        .overflow(negateb_overflow),
+        .A(negateb),
+        .B(32'b1),
+        .Cin(1'b0)
+    );
+    assign abs_operandB = data_operandB[31] ? abs_operandB_neg : data_operandB;
+
+    // Negation of abs_operandB for the divisor
+    wire [31:0] neg_abs_operandB;
+    wire [31:0] neg_abs_operandB_result;
+    wire neg_abs_operandB_cout, neg_abs_operandB_overflow;
+    
+    assign neg_abs_operandB = ~abs_operandB;
+    cla negate_abs_B(
+        .S(neg_abs_operandB_result),
+        .Cout(neg_abs_operandB_cout),
+        .overflow(neg_abs_operandB_overflow),
+        .A(neg_abs_operandB),
+        .B(32'b1),
+        .Cin(1'b0)
+    );
 
     register #(64) remainder_and_quotient_register (
         .dataIn(remainder_and_quotient_in),
@@ -40,7 +83,7 @@ module divider(
     mux_2 #(32) divisor_or_not(
         .out(correct_divisor), 
         .select(add_back), 
-        .in0(~abs_operandB + 1'b1),
+        .in0(neg_abs_operandB_result),  // Changed to use CLA result
         .in1(abs_operandB)
     );
     
@@ -54,9 +97,8 @@ module divider(
     wire [31:0] adder_result;
     wire [63:0] shifted;
     wire adder_cout, adder_overflow;
-
     assign shifted = {remainder_and_quotient_out[62:0], 1'b0};
-
+    
     cla add_sub(
         .S(adder_result), 
         .Cout(adder_cout), 
@@ -68,11 +110,11 @@ module divider(
 
     wire [63:0] set_quotient_and_dividend;
     assign set_quotient_and_dividend = {32'b0, abs_operandA};
-
+    
     wire [63:0] combined;
     assign combined[63:32] = adder_result;
     assign combined[31:0] = {remainder_and_quotient_out[30:0], ~add_back};
-
+    
     wire [63:0] final_output;
     mux_2 #(64) initialization_mux(
         .out(final_output), 
@@ -83,14 +125,26 @@ module divider(
     
     assign remainder_and_quotient_in = final_output;
     assign int_result = remainder_and_quotient_out[31:0];
-
+    
     wire result_negate;
     assign result_negate = data_operandA[31] ^ data_operandB[31];
-
-    wire [31:0] final_result;
-    assign final_result = result_negate ? (~int_result + 1'b1) : int_result;
-    assign data_result = final_result;
-
+    
+    // Final result negation using CLA
+    wire [31:0] neg_result, final_result;
+    wire neg_result_cout, neg_result_overflow;
+    
+    assign neg_result = ~int_result;
+    cla negate_result(
+        .S(final_result),
+        .Cout(neg_result_cout),
+        .overflow(neg_result_overflow),
+        .A(neg_result),
+        .B(32'b1),
+        .Cin(1'b0)
+    );
+    
+    assign data_result = result_negate ? final_result : int_result;
+    
     wire operandB_is_zero;
     assign operandB_is_zero = ~(|data_operandB);
     assign data_exception = operandB_is_zero;

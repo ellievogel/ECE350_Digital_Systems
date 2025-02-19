@@ -85,6 +85,10 @@ module processor(
         .overflow(overflow)
     );
 
+    assign address_imem = PC;
+    wire [31:0] instruction;
+    assign instruction = q_imem;
+
     assign ctrl_writeEnable = (opcode == 5'b00000) ? 1 : 0;
     assign ctrl_writeReg = rd;
     assign data_writeReg = alu_result;

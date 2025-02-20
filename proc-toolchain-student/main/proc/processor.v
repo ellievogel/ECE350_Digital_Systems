@@ -61,22 +61,89 @@ module processor(
 	output [31:0] data_writeReg;
 	input [31:0] data_readRegA, data_readRegB;
 
-	/* YOUR CODE STARTS HERE */
+    // ================FETCH STAGE=================== //
+
+    // Latch to store PC and instruction fetched from instruction memory
+    
+    wire [31:0] PC_in, PC_out;
+    assign address_imem = PC_in;
+    register pc(
+        .dataIn(PC_in),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(PC_out)
+    );
+
+    wire[31:0] q_imem_fd_out;
+    register fd_latch(
+        .dataIn(q_imem),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(q_imem_fd_out)
+    );
+
+    wire adder_Cout, adder_overflow;
+    wire[31:0] PC_incremented;
+    assign PC_in = PC_incremented;
+
+    cla adder(.S(PC_incremented), .Cout(adder_Cout), .overflow(adder_overflow), .A(PC_out), .B(32'b1), .Cin(1'b0));
+
+    // Increment PC by one
+
+    // ================DECODE STAGE================== //
 
     wire [4:0] opcode, rs, rt, rd, shamt, aluop;
+    wire [16:0] immediate;
     assign opcode = q_imem[31:27];
     assign rd = q_imem[26:22]; // Destination Register
     assign rs = q_imem[21:17]; // Register A
     assign rt = q_imem[16:12]; // Register B
     assign shamt = q_imem[11:7];
     assign aluop = q_imem[6:2];
+    assign immediate = q_imem[16:0];
 
-    wire[31:0] alu_result;
+    wire[31:0] q_imem_de_out;
+
+    wire[31:0] data_readRegA_out, data_readRegB_out;
+    register data_readRegA_latch(
+        .dataIn(data_readRegA),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(data_readRegA_out)
+    );
+
+    register data_readRegB_latch(
+        .dataIn(data_readRegB),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(data_readRegB_out)
+    );
+
+    register de_latch(
+        .dataIn(q_imem_fd_out),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(q_imem_de_out)
+    );
+
+    // ================EXECUTE STAGE================= //
+
+    wire[31:0] alu_result, alu_input;
     wire isNotEqual, isLessThan, overflow;
+    wire[31:0] sign_extended_immediate;
+
+    assign sign_extended_immediate = {{15{immediate[16]}}, immediate};
+
+    assign alu_input = (q_imem_de_out[29] == 1'b0) ? data_readRegB_out : sign_extended_immediate;
 
     alu alu_unit (
         .data_operandA(data_readRegA),
-        .data_operandB(data_readRegB),
+        .data_operandB(alu_input),
         .ctrl_ALUopcode(aluop),
         .ctrl_shiftamt(shamt),
         .data_result(alu_result),
@@ -85,28 +152,35 @@ module processor(
         .overflow(overflow)
     );
 
-    assign address_imem = PC;
-    wire [31:0] instruction;
-    assign instruction = q_imem;
+    wire[31:0] q_imem_em_out;
+    register em_latch(
+        .dataIn(q_imem_de_out),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(q_imem_em_out)
+    );
 
-    assign ctrl_writeEnable = (opcode == 5'b00000) ? 1 : 0;
+    // ================MEMORY STAGE================== //
+
+    // Interface with data memory
+    // Load/Stores
+
+    wire[31:0] q_imem_mw_out;
+    register mw_latch(
+        .dataIn(q_imem_em_out),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(q_imem_mw_out)
+    );
+
+    // ================WRITEBACK STAGE=============== //
+
     assign ctrl_writeReg = rd;
+    assign ctrl_writeEnable = 1'b1;
     assign data_writeReg = alu_result;
-
-	
-	/* END CODE */
-
-    // add $rd, $rs, $rt: 00000 (00000 ALUOP) (R)
-    // addi $rd, $rs, N: 00101 (I)
-    // sub $rd, $rs, $rt: 00000 (00001 ALUOP) (R)
-
-    // Opcode = instruction[31:27]
-    // Rd = instruction[26:22]
-    // Rs = instruction[21:17]
-    // Rt = instruction[16:12]
-    // Shamt = instruction[11:7]
-    // ALUOp = instruction[6:2]
-
-    // Imm = instruction[16:0]
+    assign ctrl_readRegA = rs;
+    assign ctrl_readRegB = rt;
 
 endmodule

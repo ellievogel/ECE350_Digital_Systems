@@ -61,16 +61,20 @@ module processor(
     // ================EXECUTE STAGE================= //
 
     // Helper wires
-    wire [7:0] alu_out;
+    wire [7:0] alu_out, alu2_out;
     wire [7:0] immediate; 
     assign immediate = dxinsn_out[7:0];
 
     // Use ALU to compute result
     alu ALU(.data_operandA(dxa_out), .data_operandB(immediate), .ctrl_ALUopcode(1'b0), .data_result(alu_out)); 
+    alu ALU2(.data_operandA(dxa_out), .data_operandB(immediate), .ctrl_ALUopcode(1'b1), .data_result(alu2_out));
+
+    wire [7:0] alu_res;
+    assign alu_res = (dxinsn_out[14] == 1'b0) ? alu_out : alu2_out;
 
     // Latch ALU result
     wire [7:0] xwo_out;
-    register #(.WIDTH(8)) XW_O(.clock(~clock), .reset(reset), .we(1'b1), .dataWrite(alu_out), .dataRead(xwo_out));
+    register #(.WIDTH(8)) XW_O(.clock(~clock), .reset(reset), .we(1'b1), .dataWrite(alu_res), .dataRead(xwo_out));
 
     // Latch instruction
     wire [14:0] xwinsn_out;
@@ -83,7 +87,7 @@ module processor(
     assign data_writeReg = xwo_out;
 
     // Set write enable
-    assign ctrl_writeEnable = 1'b0;
+    assign ctrl_writeEnable = 1'b1;
 	
 	/* END CODE */
 

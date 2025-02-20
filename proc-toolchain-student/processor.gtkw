@@ -1,0 +1,191 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Feb 20 20:17:10 2025
+[*]
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/negative_no_bypass.vcd"
+[dumpfile_mtime] "Thu Feb 20 20:13:38 2025"
+[dumpfile_size] 427969
+[savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/processor.gtkw"
+[timestart] 0
+[size] 1440 600
+[pos] -1 -1
+*-17.067675 116700 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] Wrapper_tb.
+[treeopen] Wrapper_tb.CPU.
+[sst_width] 240
+[signals_width] 530
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@22
+Wrapper_tb.CPU.address_imem[31:0]
+Wrapper_tb.CPU.alu_result[31:0]
+@c00028
+Wrapper_tb.CPU.q_imem[31:0]
+@28
+(0)Wrapper_tb.CPU.q_imem[31:0]
+(1)Wrapper_tb.CPU.q_imem[31:0]
+(2)Wrapper_tb.CPU.q_imem[31:0]
+(3)Wrapper_tb.CPU.q_imem[31:0]
+(4)Wrapper_tb.CPU.q_imem[31:0]
+(5)Wrapper_tb.CPU.q_imem[31:0]
+(6)Wrapper_tb.CPU.q_imem[31:0]
+(7)Wrapper_tb.CPU.q_imem[31:0]
+(8)Wrapper_tb.CPU.q_imem[31:0]
+(9)Wrapper_tb.CPU.q_imem[31:0]
+(10)Wrapper_tb.CPU.q_imem[31:0]
+(11)Wrapper_tb.CPU.q_imem[31:0]
+(12)Wrapper_tb.CPU.q_imem[31:0]
+(13)Wrapper_tb.CPU.q_imem[31:0]
+(14)Wrapper_tb.CPU.q_imem[31:0]
+(15)Wrapper_tb.CPU.q_imem[31:0]
+(16)Wrapper_tb.CPU.q_imem[31:0]
+(17)Wrapper_tb.CPU.q_imem[31:0]
+(18)Wrapper_tb.CPU.q_imem[31:0]
+(19)Wrapper_tb.CPU.q_imem[31:0]
+(20)Wrapper_tb.CPU.q_imem[31:0]
+(21)Wrapper_tb.CPU.q_imem[31:0]
+(22)Wrapper_tb.CPU.q_imem[31:0]
+(23)Wrapper_tb.CPU.q_imem[31:0]
+(24)Wrapper_tb.CPU.q_imem[31:0]
+(25)Wrapper_tb.CPU.q_imem[31:0]
+(26)Wrapper_tb.CPU.q_imem[31:0]
+(27)Wrapper_tb.CPU.q_imem[31:0]
+(28)Wrapper_tb.CPU.q_imem[31:0]
+(29)Wrapper_tb.CPU.q_imem[31:0]
+(30)Wrapper_tb.CPU.q_imem[31:0]
+(31)Wrapper_tb.CPU.q_imem[31:0]
+@1401200
+-group_end
+@c00022
+Wrapper_tb.CPU.sign_extended_immediate[31:0]
+@28
+(0)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(1)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(2)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(3)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(4)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(5)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(6)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(7)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(8)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(9)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(10)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(11)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(12)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(13)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(14)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(15)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(16)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(17)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(18)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(19)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(20)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(21)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(22)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(23)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(24)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(25)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(26)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(27)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(28)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(29)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(30)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+(31)Wrapper_tb.CPU.sign_extended_immediate[31:0]
+@1401200
+-group_end
+@c00028
+Wrapper_tb.CPU.immediate[16:0]
+@28
+(0)Wrapper_tb.CPU.immediate[16:0]
+(1)Wrapper_tb.CPU.immediate[16:0]
+(2)Wrapper_tb.CPU.immediate[16:0]
+(3)Wrapper_tb.CPU.immediate[16:0]
+(4)Wrapper_tb.CPU.immediate[16:0]
+(5)Wrapper_tb.CPU.immediate[16:0]
+(6)Wrapper_tb.CPU.immediate[16:0]
+(7)Wrapper_tb.CPU.immediate[16:0]
+(8)Wrapper_tb.CPU.immediate[16:0]
+(9)Wrapper_tb.CPU.immediate[16:0]
+(10)Wrapper_tb.CPU.immediate[16:0]
+(11)Wrapper_tb.CPU.immediate[16:0]
+(12)Wrapper_tb.CPU.immediate[16:0]
+(13)Wrapper_tb.CPU.immediate[16:0]
+(14)Wrapper_tb.CPU.immediate[16:0]
+(15)Wrapper_tb.CPU.immediate[16:0]
+(16)Wrapper_tb.CPU.immediate[16:0]
+@1401200
+-group_end
+@22
+Wrapper_tb.CPU.rs[4:0]
+Wrapper_tb.CPU.rt[4:0]
+Wrapper_tb.CPU.rd[4:0]
+Wrapper_tb.CPU.alu_unit.data_result[31:0]
+Wrapper_tb.CPU.alu_unit.data_operandA[31:0]
+Wrapper_tb.CPU.alu_unit.data_operandB[31:0]
+@23
+Wrapper_tb.CPU.alu_input[31:0]
+@c00022
+Wrapper_tb.CPU.data_readRegB[31:0]
+@28
+(0)Wrapper_tb.CPU.data_readRegB[31:0]
+(1)Wrapper_tb.CPU.data_readRegB[31:0]
+(2)Wrapper_tb.CPU.data_readRegB[31:0]
+(3)Wrapper_tb.CPU.data_readRegB[31:0]
+(4)Wrapper_tb.CPU.data_readRegB[31:0]
+(5)Wrapper_tb.CPU.data_readRegB[31:0]
+(6)Wrapper_tb.CPU.data_readRegB[31:0]
+(7)Wrapper_tb.CPU.data_readRegB[31:0]
+(8)Wrapper_tb.CPU.data_readRegB[31:0]
+(9)Wrapper_tb.CPU.data_readRegB[31:0]
+(10)Wrapper_tb.CPU.data_readRegB[31:0]
+(11)Wrapper_tb.CPU.data_readRegB[31:0]
+(12)Wrapper_tb.CPU.data_readRegB[31:0]
+(13)Wrapper_tb.CPU.data_readRegB[31:0]
+(14)Wrapper_tb.CPU.data_readRegB[31:0]
+(15)Wrapper_tb.CPU.data_readRegB[31:0]
+(16)Wrapper_tb.CPU.data_readRegB[31:0]
+(17)Wrapper_tb.CPU.data_readRegB[31:0]
+(18)Wrapper_tb.CPU.data_readRegB[31:0]
+(19)Wrapper_tb.CPU.data_readRegB[31:0]
+(20)Wrapper_tb.CPU.data_readRegB[31:0]
+(21)Wrapper_tb.CPU.data_readRegB[31:0]
+(22)Wrapper_tb.CPU.data_readRegB[31:0]
+(23)Wrapper_tb.CPU.data_readRegB[31:0]
+(24)Wrapper_tb.CPU.data_readRegB[31:0]
+(25)Wrapper_tb.CPU.data_readRegB[31:0]
+(26)Wrapper_tb.CPU.data_readRegB[31:0]
+(27)Wrapper_tb.CPU.data_readRegB[31:0]
+(28)Wrapper_tb.CPU.data_readRegB[31:0]
+(29)Wrapper_tb.CPU.data_readRegB[31:0]
+(30)Wrapper_tb.CPU.data_readRegB[31:0]
+(31)Wrapper_tb.CPU.data_readRegB[31:0]
+@1401200
+-group_end
+[pattern_trace] 1
+[pattern_trace] 0

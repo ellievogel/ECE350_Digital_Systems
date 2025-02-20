@@ -1,0 +1,25 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Feb 20 16:07:41 2025
+[*]
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/gtkwave_lab_test_files/output_files/addi.vcd"
+[dumpfile_mtime] "Thu Feb 20 15:58:10 2025"
+[dumpfile_size] 46194
+[savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/addi.gtkw"
+[timestart] 0
+[size] 1440 788
+[pos] -1 -1
+*-17.344233 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[treeopen] Wrapper_tb.
+[sst_width] 240
+[signals_width] 169
+[sst_expanded] 1
+[sst_vpaned_height] 225
+@28
+Wrapper_tb.clock
+@22
+Wrapper_tb.CPU.address_imem[7:0]
+@23
+Wrapper_tb.CPU.xwo_out[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

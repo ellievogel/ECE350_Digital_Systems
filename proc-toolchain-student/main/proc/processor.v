@@ -17,6 +17,26 @@
  *
  *
  */
+
+ // each instruction needs to go through the pipeline in order, regardless of what that is
+ // HAZARDS
+    // 1. Data Hazard
+        // Detecting: compare F/D insn input register names with output register names of older instructions in pipeline
+        // (F/D.IR.RS1 == D/X.IR.RD) || (F/D.IR.RS2 == D/X.IR.RD) || (F/D.IR.RS1 == X/M.IR.RD) || (F/D.IR.RS2 == X/M.IR.RD)
+        // Use comparators
+        // Prevent F/D instruction from reading/advancing this cycle
+        // Stall F?D instruction until hazard is resolved
+            // write nop into D/X.IR
+            // Clear datapath control signals
+            // Disable F/D latch and PC write enables
+    // 2. Structural Hazard
+        // Each instruction uses every structure exactly once
+        // For at most once cycle
+        // Always at same stage relative to fetch
+        // WRITES TO REGISTER FILE ON RISING EDGE
+        // READS TO REGISTER FILE ON FALLING EDGE
+    // 3. Control Hazard
+
 module processor(
     // Control signals
     clock,                          // I: The master clock
@@ -24,13 +44,13 @@ module processor(
 
     // Imem
     address_imem,                   // O: The address of the data to get from imem
-    q_imem,                         // I: The data from imem
+    q_imem,                         // I: The data from imem (instruction)
 
     // Dmem
     address_dmem,                   // O: The address of the data to get or put from/to dmem
-    data,                           // O: The data to write to dmem
-    wren,                           // O: Write enable for dmem
-    q_dmem,                         // I: The data from dmem
+    data,                           // O: The data to write to dmem (data)
+    wren,                           // O: Write enable for dmem (data)
+    q_dmem,                         // I: The data from dmem (data)
 
     // Regfile
     ctrl_writeEnable,               // O: Write enable for RegFile
@@ -39,8 +59,7 @@ module processor(
     ctrl_readRegB,                  // O: Register to read from port B of RegFile
     data_writeReg,                  // O: Data to write to for RegFile
     data_readRegA,                  // I: Data from port A of RegFile
-    data_readRegB                   // I: Data from port B of RegFile
-	 
+    data_readRegB,                   // I: Data from port B of RegFile
 	);
 
 	// Control signals
@@ -61,12 +80,13 @@ module processor(
 	output [31:0] data_writeReg;
 	input [31:0] data_readRegA, data_readRegB;
 
+	/* YOUR CODE STARTS HERE */
+
     // ================FETCH STAGE=================== //
 
-    // Latch to store PC and instruction fetched from instruction memory
-    
     wire [31:0] PC_in, PC_out;
-    assign address_imem = PC_in;
+    assign address_imem = PC_out;
+
     register pc(
         .dataIn(PC_in),
         .clk(~clock),
@@ -75,112 +95,155 @@ module processor(
         .dataOut(PC_out)
     );
 
-    wire[31:0] q_imem_fd_out;
-    register fd_latch(
-        .dataIn(q_imem),
-        .clk(~clock),
-        .writeEnable(1'b1),
-        .reset(reset),
-        .dataOut(q_imem_fd_out)
-    );
-
     wire adder_Cout, adder_overflow;
     wire[31:0] PC_incremented;
     assign PC_in = PC_incremented;
 
-    cla adder(.S(PC_incremented), .Cout(adder_Cout), .overflow(adder_overflow), .A(PC_out), .B(32'b1), .Cin(1'b0));
+    cla adder(
+        .S(PC_incremented),
+        .Cout(adder_Cout),
+        .overflow(adder_overflow),
+        .A(PC_out),
+        .B(32'b1),
+        .Cin(1'b0)
+    );
 
-    // Increment PC by one
+    // FD registers
+    wire[31:0] fd_pc, fd_inst;
+    register fd_pc_reg(
+        .dataIn(PC_out),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(fd_pc)
+    );
+    register fd_inst_reg(
+        .dataIn(q_imem),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(fd_inst)
+    );
 
     // ================DECODE STAGE================== //
 
     wire [4:0] opcode, rs, rt, rd, shamt, aluop;
     wire [16:0] immediate;
-    assign opcode = q_imem[31:27];
-    assign rd = q_imem[26:22]; // Destination Register
-    assign rs = q_imem[21:17]; // Register A
-    assign rt = q_imem[16:12]; // Register B
-    assign shamt = q_imem[11:7];
-    assign aluop = q_imem[6:2];
-    assign immediate = q_imem[16:0];
+    assign opcode = de_inst[31:27];
+    assign rd = fd_inst[26:22];
+    assign rs = fd_inst[21:17];
+    assign rt = fd_inst[16:12];
+    assign shamt = fd_inst[11:7];
+    assign aluop = fd_inst[6:2];
+    assign immediate = fd_inst[16:0];
+    assign ctrl_readRegA = rs;
+    assign ctrl_readRegB = rt;
 
-    wire[31:0] q_imem_de_out;
-
-    wire[31:0] data_readRegA_out, data_readRegB_out;
-    register data_readRegA_latch(
+    // DE registers
+    wire[31:0] de_regA, de_regB, de_inst;
+    register de_regA_reg(
         .dataIn(data_readRegA),
         .clk(~clock),
         .writeEnable(1'b1),
         .reset(reset),
-        .dataOut(data_readRegA_out)
+        .dataOut(de_regA)
     );
-
-    register data_readRegB_latch(
+    register de_regB_reg(
         .dataIn(data_readRegB),
         .clk(~clock),
         .writeEnable(1'b1),
         .reset(reset),
-        .dataOut(data_readRegB_out)
+        .dataOut(de_regB)
     );
-
-    register de_latch(
-        .dataIn(q_imem_fd_out),
+    register de_inst_reg(
+        .dataIn(fd_inst),
         .clk(~clock),
         .writeEnable(1'b1),
         .reset(reset),
-        .dataOut(q_imem_de_out)
+        .dataOut(de_inst)
     );
 
     // ================EXECUTE STAGE================= //
-
+    
     wire[31:0] alu_result, alu_input;
     wire isNotEqual, isLessThan, overflow;
     wire[31:0] sign_extended_immediate;
+    wire[4:0] alu_opcode;
 
-    assign sign_extended_immediate = {{15{immediate[16]}}, immediate};
-
-    assign alu_input = (q_imem_de_out[29] == 1'b0) ? data_readRegB_out : sign_extended_immediate;
+    assign sign_extended_immediate = {{15{de_inst[16]}}, de_inst[16:0]};
+    assign alu_input = (de_inst[29] == 1'b0) ? de_regB : sign_extended_immediate;
+    assign alu_opcode = (de_inst[31:27] == 5'b00101) ? 5'b0 : de_inst[6:2];
 
     alu alu_unit (
-        .data_operandA(data_readRegA),
+        .data_operandA(de_regA),
         .data_operandB(alu_input),
-        .ctrl_ALUopcode(aluop),
-        .ctrl_shiftamt(shamt),
+        .ctrl_ALUopcode(alu_opcode),
+        .ctrl_shiftamt(de_inst[11:7]),
         .data_result(alu_result),
         .isNotEqual(isNotEqual),
         .isLessThan(isLessThan),
         .overflow(overflow)
     );
 
-    wire[31:0] q_imem_em_out;
-    register em_latch(
-        .dataIn(q_imem_de_out),
+    // EM registers
+    wire[31:0] em_alu_result, em_regB, em_inst;
+    register em_alu_reg(
+        .dataIn(alu_result),
         .clk(~clock),
         .writeEnable(1'b1),
         .reset(reset),
-        .dataOut(q_imem_em_out)
+        .dataOut(em_alu_result)
+    );
+    register em_regB_reg(
+        .dataIn(de_regB),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(em_regB)
+    );
+    register em_inst_reg(
+        .dataIn(de_inst),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(em_inst)
     );
 
     // ================MEMORY STAGE================== //
 
-    // Interface with data memory
-    // Load/Stores
+    assign address_dmem = em_alu_result;
+    assign data = em_regB;
+    assign wren = (em_inst[31:27] == 5'b00111);
 
-    wire[31:0] q_imem_mw_out;
-    register mw_latch(
-        .dataIn(q_imem_em_out),
+    wire[31:0] mw_alu_result, mw_mem_data, mw_inst;
+    register mw_alu_reg(
+        .dataIn(em_alu_result),
         .clk(~clock),
         .writeEnable(1'b1),
         .reset(reset),
-        .dataOut(q_imem_mw_out)
+        .dataOut(mw_alu_result)
+    );
+    register mw_mem_reg(
+        .dataIn(q_dmem),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(mw_mem_data)
+    );
+    register mw_inst_reg(
+        .dataIn(em_inst),
+        .clk(~clock),
+        .writeEnable(1'b1),
+        .reset(reset),
+        .dataOut(mw_inst)
     );
 
     // ================WRITEBACK STAGE=============== //
 
-    assign ctrl_writeReg = rd;
-    assign ctrl_writeEnable = 1'b1;
-    assign data_writeReg = alu_result;
-    assign ctrl_readRegA = rs;
-    assign ctrl_readRegB = rt;
+    // WRITING ON RISING EDGE OF CLOCK CYCLE
+
+    assign ctrl_writeReg = mw_inst[26:22];
+    assign ctrl_writeEnable = (mw_inst[31:27] != 5'b00111);
+    assign data_writeReg = (mw_inst[31:27] == 5'b00110) ? mw_mem_data : mw_alu_result;
 
 endmodule

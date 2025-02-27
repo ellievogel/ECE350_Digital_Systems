@@ -101,16 +101,13 @@ def get_active_list(asm_dir=os.path.join('test_files', 'assembly_files'), append
 
     return trimmed_lines
 
-def assemble(file_path, canonical_name, asm_dir, mem_dir):
-    # Add assembly contents to HTML generator
-    with open(file_path, 'r', encoding='utf-8') as f:
-        asm_contents = f.read()
 
-    # Command to run the assembler
+# FIXME: Scuffed fix for people with no Python but infinite Python3
+def run_assemble_command(file_path, canonical_name, asm_dir, mem_dir, asm_contents, py_cmd='python'):
     try:
         HTMLGenerator.add_content(canonical_name, asm_contents, keep=True)
         if SHOULD_ASSEMBLE:
-            command = ['python', os.path.join('assembler-python-version', 'assemble.py'), file_path]
+            command = [py_cmd, os.path.join('assembler-python-version', 'assemble.py'), file_path]
             result = subprocess.run(command, capture_output=True, text=True, check=True)
         
             # Move mem file to correct location
@@ -129,10 +126,23 @@ def assemble(file_path, canonical_name, asm_dir, mem_dir):
         HTMLGenerator.add_content(canonical_name, f"Assembly file failed to compile. Error: {error_text}", keep=True)
         Logger.warn(f"Assembler failed to execute for {file_path}. Error: {error_text}")
         delete_state_file(mem_dir)
-    except IOError as e:
-        HTMLGenerator.add_content(canonical_name, "Mem file failed to write.", keep=True)
-        Logger.warn(f"Error writing to memory file for {file_path}. Error: {e}")
-        delete_state_file(mem_dir)
+
+def assemble(file_path, canonical_name, asm_dir, mem_dir):
+    # Add assembly contents to HTML generator
+    with open(file_path, 'r', encoding='utf-8') as f:
+        asm_contents = f.read()
+
+    for py_cmd in ['python', 'python3']:
+        try:
+            run_assemble_command(file_path, canonical_name, asm_dir, mem_dir, asm_contents, py_cmd)
+            return  # Success - exit function
+        except IOError:
+            continue  # Try next command
+    
+    # If we get here, both commands failed
+    HTMLGenerator.add_content(canonical_name, "Mem file failed to write.", keep=True)
+    Logger.warn(f"Error writing to memory file for {file_path}.")
+    delete_state_file(mem_dir)
 
 def delete_state_file(state_dir):
     state_path = get_state_path(state_dir)

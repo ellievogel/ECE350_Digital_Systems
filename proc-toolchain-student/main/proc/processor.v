@@ -36,6 +36,19 @@
         // WRITES TO REGISTER FILE ON RISING EDGE
         // READS TO REGISTER FILE ON FALLING EDGE
     // 3. Control Hazard
+        // Not resolved until end of stage 3
+        // Default: assume branch not taken (can't tell at fetch if it's a branch)
+        // If branch is taken, flush pipeline
+        // Branch recovery
+    
+    // Notes on branches:
+        // Fast branch: branch is resolved in decode stage
+        // Test must be comparison to zero or equality
+        // New taken branch penalty: 1 cycle
+        // Negative: must be able to bypass into decode now, too, into new dedicated address adder
+        // Delayed branches: don't flush instruction immediately following
+            // ISA modification (we won't do this)
+
 
 module processor(
     // Control signals
@@ -129,6 +142,7 @@ module processor(
 
     wire [4:0] opcode, rs, rt, rd, shamt, aluop;
     wire [16:0] immediate;
+    wire [26:0] target;
     assign opcode = de_inst[31:27];
     assign rd = fd_inst[26:22];
     assign rs = fd_inst[21:17];
@@ -138,6 +152,7 @@ module processor(
     assign immediate = fd_inst[16:0];
     assign ctrl_readRegA = rs;
     assign ctrl_readRegB = rt;
+    assign target = fd_inst[26:0];
 
     // DE registers
     wire[31:0] de_regA, de_regB, de_inst;

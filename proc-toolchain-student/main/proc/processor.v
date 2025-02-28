@@ -48,6 +48,12 @@
         // Negative: must be able to bypass into decode now, too, into new dedicated address adder
         // Delayed branches: don't flush instruction immediately following
             // ISA modification (we won't do this)
+        // Dynamic branch prediction:
+            // Guess outcome
+            // Flush on mis-prediction
+
+
+// ASSUME NOT TAKEN, INSERT 2 NOPS IF TAKEN
 
 
 module processor(

@@ -1,0 +1,82 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Wed Mar  5 19:48:25 2025
+[*]
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/multdiv_no_bypass_slow.vcd"
+[dumpfile_mtime] "Wed Mar  5 19:43:33 2025"
+[dumpfile_size] 1400082
+[savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/Untitled.gtkw"
+[timestart] 152200
+[size] 1704 724
+[pos] -12 -1
+*-17.000000 637100 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] Wrapper_tb.
+[treeopen] Wrapper_tb.RegisterFile.loop1[10].
+[sst_width] 255
+[signals_width] 410
+[sst_expanded] 1
+[sst_vpaned_height] 255
+@28
+Wrapper_tb.CPU.clock
+Wrapper_tb.CPU.is_blt
+@24
+Wrapper_tb.CPU.data_readRegA[31:0]
+Wrapper_tb.CPU.data_readRegB[31:0]
+Wrapper_tb.CPU.ctrl_readRegA[4:0]
+Wrapper_tb.CPU.ctrl_readRegB[4:0]
+Wrapper_tb.CPU.alu_input[31:0]
+@28
+Wrapper_tb.CPU.is_bne
+@24
+Wrapper_tb.CPU.next_pc[31:0]
+Wrapper_tb.CPU.address_imem[31:0]
+Wrapper_tb.CPU.PC_incremented[31:0]
+Wrapper_tb.CPU.jump_target[31:0]
+@28
+Wrapper_tb.CPU.is_blt_inst
+@24
+Wrapper_tb.CPU.ctrl_writeReg[4:0]
+@22
+Wrapper_tb.RegisterFile.loop1[10].tempwire[31:0]
+Wrapper_tb.CPU.modified_q_imem[31:0]
+Wrapper_tb.CPU.fd_inst[31:0]
+Wrapper_tb.CPU.de_inst[31:0]
+Wrapper_tb.CPU.em_inst[31:0]
+Wrapper_tb.CPU.mw_inst[31:0]
+@28
+Wrapper_tb.CPU.multdiv_resultRDY
+@25
+Wrapper_tb.CPU.multdiv_result[31:0]
+@28
+Wrapper_tb.CPU.stall
+@24
+Wrapper_tb.CPU.de_regA[31:0]
+Wrapper_tb.CPU.de_regB[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -4,6 +4,7 @@
 ./subtract.v
 ./shift_right.v
 ./regfile_tb.v
+./register_parameter.v
 ./alu.v
 ./sl_latch.v
 ./alu_tb.v
@@ -12,8 +13,11 @@
 ./multdiv_tb.v
 ./dffe_ref.v
 ./Wrapper.v
+./shift_right_multdiv.v
 ./cla.v
 ./RAM.v
+./mux_2_parameter.v
+./register_1_bit.v
 ./processor.v
 ./cla_block.v
 ./regfile.v

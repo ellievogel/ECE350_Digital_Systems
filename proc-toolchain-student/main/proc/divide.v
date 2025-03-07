@@ -70,7 +70,7 @@ module divider(
         .Cin(1'b0)
     );
 
-    register #(64) remainder_and_quotient_register (
+    register_parameter #(64) remainder_and_quotient_register (
         .dataIn(remainder_and_quotient_in),
         .clk(clock),
         .writeEnable(1'b1),
@@ -80,14 +80,14 @@ module divider(
 
     wire [31:0] correct_divisor;
     wire add_or_sub;
-    mux_2 #(32) divisor_or_not(
+    mux_2_parameter #(32) divisor_or_not(
         .out(correct_divisor), 
         .select(add_back), 
         .in0(neg_abs_operandB_result),  // Changed to use CLA result
         .in1(abs_operandB)
     );
     
-    mux_2 #(1) addsub(
+    mux_2_parameter #(1) addsub(
         .out(add_or_sub), 
         .select(add_back), 
         .in0(1'b0), 
@@ -116,7 +116,7 @@ module divider(
     assign combined[31:0] = {remainder_and_quotient_out[30:0], ~add_back};
     
     wire [63:0] final_output;
-    mux_2 #(64) initialization_mux(
+    mux_2_parameter #(64) initialization_mux(
         .out(final_output), 
         .select(ctrl_DIV), 
         .in0(combined), 

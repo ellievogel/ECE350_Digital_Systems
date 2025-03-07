@@ -27,7 +27,7 @@ module multiplier(
         .count(count)
     );
 
-    register #(32) multiplier_register (
+    register_parameter #(32) multiplier_register (
         .dataIn(data_operandB),
         .clk(clock),
         .writeEnable(ctrl_MULT),
@@ -35,7 +35,7 @@ module multiplier(
         .dataOut(multiplier)
     );
 
-    register #(66) product_and_multiplier_register (
+    register_parameter #(66) product_and_multiplier_register (
         .dataIn(product_and_multiplier_in),
         .clk(clock),
         .writeEnable(1'b1),
@@ -46,7 +46,7 @@ module multiplier(
     wire [31:0] shifted;
     shift_left left(.in(data_operandA), .shiftamount(5'd1), .out(shifted));
     wire [31:0] shifted_output;
-    mux_2 #(32) shift_mux(.out(shifted_output), .select(shift), .in0(data_operandA), .in1(shifted));
+    mux_2_parameter #(32) shift_mux(.out(shifted_output), .select(shift), .in0(data_operandA), .in1(shifted));
 
     wire [31:0] adder_result, subtractor_result;
     wire adder_cout, adder_overflow, subtractor_cout, subtractor_overflow;
@@ -70,7 +70,7 @@ module multiplier(
     );
 
     wire [31:0] intermediate_mux_output;
-    mux_2 #(32) first_mux(
+    mux_2_parameter #(32) first_mux(
         .out(intermediate_mux_output), 
         .select(subtract), 
         .in0(adder_result), 
@@ -78,7 +78,7 @@ module multiplier(
     );
 
     wire [31:0] operation_output;
-    mux_2 #(32) second_mux(
+    mux_2_parameter #(32) second_mux(
         .out(operation_output), 
         .select(nothing), 
         .in0(intermediate_mux_output), 
@@ -92,7 +92,7 @@ module multiplier(
     assign combined[32:0] = product_and_multiplier_out[32:0];
 
     wire [65:0] shift_right;
-    shift_right rightshifter(.in(combined), .shiftamount(5'd2), .out(shift_right));
+    shift_right_multdiv rightshifter(.in(combined), .shiftamount(5'd2), .out(shift_right));
 
     wire [65:0] final_output;
     wire [65:0] set_input_b;
@@ -100,7 +100,7 @@ module multiplier(
     assign set_input_b[32:1] = data_operandB;
     assign set_input_b[0] = 1'b0;
 
-    mux_2 #(66) shift_right_mux(.out(final_output), .select(start), .in0(shift_right), .in1(set_input_b));
+    mux_2_parameter #(66) shift_right_mux(.out(final_output), .select(start), .in0(shift_right), .in1(set_input_b));
 
     assign product_and_multiplier_in = final_output;
 

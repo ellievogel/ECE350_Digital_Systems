@@ -10,6 +10,22 @@ module multdiv(
     output [31:0] data_result;
     output data_exception, data_resultRDY;
 
+    // wire [31:0] data_operandA_output, data_operandB_output;
+    // register data_a_reg(
+    //     .dataIn(data_operandA),
+    //     .clk(clock),
+    //     .writeEnable(ctrl_MULT | ctrl_DIV),
+    //     .reset(1'b0),
+    //     .dataOut(data_operandA_output)
+    // );
+    // register data_b_reg(
+    //     .dataIn(data_operandB),
+    //     .clk(clock),
+    //     .writeEnable(ctrl_MULT | ctrl_DIV),
+    //     .reset(1'b0),
+    //     .dataOut(data_operandB_output)
+    // );
+
     wire [31:0] mult_data_result;
     wire mult_data_exception, mult_data_resultRDY;
     wire [31:0] div_data_result;

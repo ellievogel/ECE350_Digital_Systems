@@ -45,16 +45,16 @@ module processor(
 
     // ================FETCH STAGE=================== //
 
-    wire [31:0] PC, PC_latched;
-    assign address_imem = PC_latched;
+    wire [31:0] PC_in, PC_out;
+    assign address_imem = PC_out;
     wire stall;
 
     register pc(
-        .dataIn(PC),
+        .dataIn(PC_in),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(PC_latched)
+        .dataOut(PC_out)
     );
 
     wire adder_Cout, adder_overflow;
@@ -64,7 +64,7 @@ module processor(
         .S(PC_incremented),
         .Cout(adder_Cout),
         .overflow(adder_overflow),
-        .A(PC_latched),
+        .A(PC_out),
         .B(32'b1),
         .Cin(1'b0)
     );
@@ -72,7 +72,7 @@ module processor(
     // FD registers
     wire[31:0] fd_pc, fd_inst;
     register fd_pc_reg(
-        .dataIn(PC_latched),
+        .dataIn(PC_out),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
@@ -127,7 +127,7 @@ module processor(
     assign target = fd_inst[26:0];
 
     // DE registers
-    wire[31:0] de_regA, de_regB, de_inst, de_pc;
+    wire[31:0] de_regA, de_regB, de_inst, PC_de;
     register de_regA_reg(
         .dataIn(data_readRegA),
         .clk(~clock),
@@ -158,22 +158,45 @@ module processor(
         .reset(reset),
         .dataOut(de_inst)
     );
-    register de_pc_reg(
+    register de_pc(
         .dataIn(fd_pc),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(de_pc)
+        .dataOut(PC_de)
     );
-    wire[31:0] de_pc_incremented;
+    wire[31:0] PC_incremented_de;
     register pc_plus_one(
         .dataIn(fd_pc_incremented),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(de_pc_incremented)
+        .dataOut(PC_incremented_de)
     );  
 
+    // Hazard registers
+    wire[4:0] de_readReg1, de_readReg2, de_writeReg;
+    register_parameter #(5) fd_readReg1_reg(
+        .dataIn(rs),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(de_readReg1)
+    );
+    register_parameter #(5) fd_readReg2_reg(
+        .dataIn(rt),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(de_readReg2)
+    );
+    register_parameter #(5) fd_writeReg_reg(
+        .dataIn(rd),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(de_writeReg)
+    );
 
 
     // ================EXECUTE STAGE================= //
@@ -196,19 +219,29 @@ module processor(
         .Cin(1'b0)
     );
 
+    wire[31:0] em_bypass_de_regA, mw_bypass_de_regA;
+    assign mw_bypass_de_regA = ew_bypass_1 ? data_writeReg : de_regA;
+    assign em_bypass_de_regA = em_bypass_1 ? em_alu_result : de_regA;
+    wire[31:0] bypass_de_regA = em_bypass_1 ? em_bypass_de_regA : mw_bypass_de_regA;
+
+    wire[31:0] em_bypass_de_regB, mw_bypass_de_regB;
+    assign mw_bypass_de_regB = ew_bypass_2 ? data_writeReg : de_regB;
+    assign em_bypass_de_regB = em_bypass_2 ? em_alu_result : de_regB;
+    wire[31:0] bypass_de_regB = em_bypass_2 ? em_bypass_de_regB : mw_bypass_de_regB;
+
     wire[31:0] alu_result, alu_input;
     wire isNotEqual, isLessThan, overflow;
     wire[4:0] alu_opcode, alu_opcode_intermediate;
 
     assign sign_extended_immediate = {{15{de_inst[16]}}, de_inst[16:0]};
-    assign alu_input = (de_inst[31:27] == 5'b00101 || de_inst[31:27] == 5'b00111 || de_inst[31:27] == 5'b01000) ? sign_extended_immediate : de_regB;
+    assign alu_input = (de_inst[31:27] == 5'b00101 || de_inst[31:27] == 5'b00111 || de_inst[31:27] == 5'b01000) ? sign_extended_immediate : bypass_de_regB;
     assign alu_opcode_intermediate = (de_inst[31:27] == 5'b00101) ? 5'b0 : de_inst[6:2];
     assign alu_opcode = (is_blt_execute || is_bne_execute) ? 5'b00001 : alu_opcode_intermediate;
 
     wire is_blt_inst, is_bne_inst;
     wire is_jump = (de_inst[31:27] == 5'b00001 || jal);  // J or JAL
     wire is_all_zeros;
-    assign is_all_zeros = de_regA == 32'd0;
+    assign is_all_zeros = bypass_de_regA == 32'd0;
     wire[4:0] de_opcode = de_inst[31:27];
     wire is_bex = (de_inst[31:27] == 5'b10110) && (~is_all_zeros);
     assign is_blt_inst = (de_inst[31:27] == 5'b00110) && (~isLessThan && isNotEqual);
@@ -221,7 +254,7 @@ module processor(
     wire [31:0] jr_destination = de_regB;
     wire [31:0] bne_destination;
     wire [31:0] bne_pc = (is_bne_inst || is_blt_inst) ? bne_destination : next_pc;
-    assign PC = is_jr_execute ? jr_destination : bne_pc;
+    assign PC_in = is_jr_execute ? jr_destination : bne_pc;
 
     assign flush = is_jump || is_bex || is_blt_inst || is_bne_inst || is_jr_execute;
 
@@ -231,13 +264,13 @@ module processor(
         .S(bne_destination),
         .Cout(adder_bne_Cout),
         .overflow(adder_bne_overflow),
-        .A(de_pc_incremented),
+        .A(PC_incremented_de),
         .B(sign_extended_immediate),
         .Cin(1'b0)
     );
 
     alu alu_unit (
-        .data_operandA(de_regA),
+        .data_operandA(bypass_de_regA),
         .data_operandB(alu_input),
         .ctrl_ALUopcode(alu_opcode),
         .ctrl_shiftamt(de_inst[11:7]),
@@ -262,7 +295,7 @@ module processor(
     assign exception_value = is_mult_exception ? 32'b00000000000000000000000000000100 : (is_div_exception ? 32'b00000000000000000000000000000101 : (is_add_overflow ? 32'b00000000000000000000000000000001 : (is_addi_overflow ? 32'b00000000000000000000000000000010 : (is_sub_overflow ? 32'b00000000000000000000000000000011 : 32'b00000000000000000000000000000000))));
 
     wire is_multiplying;
-    assign stall = (mult || div) && ~multdiv_resultRDY;
+    assign stall = stall_logic || ((mult || div) && ~multdiv_resultRDY);
 
     register_parameter #(1) dff(
         .dataIn((mult || div) && ~multdiv_resultRDY),
@@ -273,8 +306,8 @@ module processor(
     );
 
     multdiv multiply_divide(
-        .data_operandA(de_regA),
-        .data_operandB(de_regB), 
+        .data_operandA(bypass_de_regA),
+        .data_operandB(bypass_de_regB), 
         .ctrl_MULT(mult && ~is_multiplying),
         .ctrl_DIV(div && ~is_multiplying),
         .clock(clock), 
@@ -287,11 +320,11 @@ module processor(
     assign exception = is_add_overflow || is_addi_overflow || is_sub_overflow || is_mult_exception || is_div_exception;
 
     // EM registers
-    wire[31:0] em_alu_result, em_regB, em_inst, em_pc;
+    wire[31:0] em_alu_result, em_regB, em_inst, PC_em;
 
     wire[31:0] alu_with_jal, alu_result_multdiv;
     assign alu_result_multdiv = (mult || div) ? multdiv_result : alu_result;
-    assign alu_with_jal = jal ? de_pc_incremented : alu_result_multdiv; 
+    assign alu_with_jal = jal ? PC_incremented_de : alu_result_multdiv; 
 
     register em_alu_reg(
         .dataIn(alu_with_jal),
@@ -330,20 +363,20 @@ module processor(
         .reset(reset),
         .dataOut(em_inst)
     );
-    register em_pc_reg(
-        .dataIn(de_pc),
+    register em_pc(
+        .dataIn(PC_de),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(em_pc)
+        .dataOut(PC_em)
     );
-    wire[31:0] em_pc_incremented;
+    wire[31:0] PC_incremented_em;
     register pc_plus_one_em(
-        .dataIn(de_pc_incremented),
+        .dataIn(PC_incremented_de),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(em_pc_incremented)
+        .dataOut(PC_incremented_em)
     );
     wire[31:0] sw_em_address;
     register sw_em(
@@ -354,15 +387,40 @@ module processor(
         .dataOut(sw_em_address)
     );
 
+    // Hazard registers
+    wire[4:0] em_readReg1, em_readReg2, em_writeReg;
+    register_parameter #(5) de_readReg1_reg(
+        .dataIn(de_readReg1),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(em_readReg1)
+    );
+    register_parameter #(5) de_readReg2_reg(
+        .dataIn(de_readReg2),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(em_readReg2)
+    );
+    register_parameter #(5) de_writeReg_reg(
+        .dataIn(de_writeReg),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(em_writeReg)
+    );
+
+
     // ================MEMORY STAGE================== //
 
     wire is_sw_memory = (em_inst[31:27] == 5'b00111);
 
     assign address_dmem = sw_em_address;
-    assign data = em_regB;
+    assign data = em_bypass_regB;
     assign wren = is_sw_memory;
 
-    wire[31:0] mw_alu_result, mw_mem_data, mw_inst, mw_pc;
+    wire[31:0] mw_alu_result, mw_mem_data, mw_inst, PC_mw;
     register mw_alu_reg(
         .dataIn(em_alu_result),
         .clk(~clock),
@@ -384,12 +442,12 @@ module processor(
         .reset(reset),
         .dataOut(mw_inst)
     );
-    register mw_pc_reg(
-        .dataIn(em_pc),
+    register mw_pc(
+        .dataIn(PC_em),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(mw_pc)
+        .dataOut(PC_mw)
     );
     wire mw_exception;
     register_1_bit exception_or_not_mw(
@@ -407,22 +465,48 @@ module processor(
         .reset(reset),
         .dataOut(mw_exception_value)
     );
-    wire[31:0] mw_incrremented_pc;
+    wire[31:0] PC_incremented_mw;
     register pc_plus_one_mw(
-        .dataIn(em_pc_incremented),
+        .dataIn(PC_incremented_em),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
-        .dataOut(mw_incrremented_pc)
+        .dataOut(PC_incremented_mw)
     );
     wire[31:0] mw_regB;
+    wire[31:0] em_bypass_regB = mw_bypass ? data_writeReg : em_regB;
     register mw_regB_reg(
-        .dataIn(em_regB),
+        .dataIn(em_bypass_regB),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
         .dataOut(mw_regB)
     );
+
+    // Hazard registers
+    wire[4:0] mw_readReg1, mw_readReg2, mw_writeReg;
+    register_parameter #(5) em_readReg1_reg(
+        .dataIn(em_readReg1),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(mw_readReg1)
+    );
+    register_parameter #(5) em_readReg2_reg(
+        .dataIn(em_readReg2),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(mw_readReg2)
+    );
+    register_parameter #(5) em_writeReg_reg(
+        .dataIn(em_writeReg),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(mw_writeReg)
+    );
+
 
     // ================WRITEBACK STAGE=============== //
 
@@ -430,7 +514,7 @@ module processor(
 
     wire setx;
     assign setx = (mw_inst[31:27] == 5'b10101);
-    wire [31:0] mw_jump_target = {mw_inst[26], mw_inst[26], mw_inst[26], mw_inst[26], mw_inst[26], mw_inst[26:0]};
+    wire [31:0] jump_target_mw = {mw_inst[26], mw_inst[26], mw_inst[26], mw_inst[26], mw_inst[26], mw_inst[26:0]};
     wire mw_jal = (mw_inst[31:27] == 5'b00011);
     // wire exception;
     // assign exception = is_add_overflow || is_addi_overflow || is_sub_overflow || is_mult_exception || is_div_exception;
@@ -444,18 +528,28 @@ module processor(
     wire[31:0] memory_data = (mw_inst[31:27] == 5'b01000) ? mw_mem_data : mw_alu_result;
 
     wire adder_mw_Cout, adder_mw_overflow;
-    wire[31:0] mw_pc_incremented;
+    wire[31:0] PC_mw_incremented;
     
     cla adder_mw(
-        .S(mw_pc_incremented),
+        .S(PC_mw_incremented),
         .Cout(adder_mw_Cout),
         .overflow(adder_mw_overflow),
-        .A(mw_pc),
+        .A(PC_mw),
         .B(32'b1),
         .Cin(1'b0)
     );
 
-    wire[31:0] exception_value_to_write = mw_exception ? mw_exception_value : mw_jump_target;
+    wire[31:0] exception_value_to_write = mw_exception ? mw_exception_value : jump_target_mw;
     assign data_writeReg = (setx || mw_exception) ? exception_value_to_write : memory_data;
+
+    // ================BYPASSING/STALLING=============== //
+
+    wire em_bypass_1, em_bypass_2, ew_bypass_1, ew_bypass_2, mw_bypass;
+    assign em_bypass_1 = (de_readReg1 == em_writeReg) && (de_readReg1 != 5'b00000) && (em_writeReg != 5'b00000);
+    assign em_bypass_2 = (de_readReg2 == em_writeReg) && (de_readReg2 != 5'b00000) && (em_writeReg != 5'b00000);
+    assign ew_bypass_1 = (de_readReg1 == mw_writeReg) && (de_readReg1 != 5'b00000) && (mw_writeReg != 5'b00000);
+    assign ew_bypass_2 = (de_readReg2 == mw_writeReg) && (de_readReg2 != 5'b00000) && (mw_writeReg != 5'b00000);
+    assign mw_bypass = (mw_readReg1 == ctrl_writeReg) && (mw_readReg1 != 5'b00000) && (ctrl_writeReg != 5'b00000);
+    wire stall_logic = (de_inst[31:27] == 5'b01000) && ((rs == de_writeReg) || ((rt == de_writeReg) && (fd_inst[31:27] != 5'b00111)));
 
 endmodule

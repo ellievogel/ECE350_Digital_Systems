@@ -31,7 +31,7 @@ module multiplier(
         .dataIn(data_operandB),
         .clk(clock),
         .writeEnable(ctrl_MULT),
-        .reset(ctrl_MULT),
+        .reset(1'b0),
         .dataOut(multiplier)
     );
 

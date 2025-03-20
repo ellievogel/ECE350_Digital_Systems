@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Tue Mar 18 23:12:57 2025
+[*] Thu Mar 20 13:50:33 2025
 [*]
-[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/multdiv_no_bypass_slow.vcd"
-[dumpfile_mtime] "Tue Mar 18 23:09:38 2025"
-[dumpfile_size] 1519942
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/lw_add.vcd"
+[dumpfile_mtime] "Thu Mar 20 13:35:21 2025"
+[dumpfile_size] 725175
 [savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/Untitled.gtkw"
 [timestart] 0
-[size] 1696 963
-[pos] 6 -1
-*-17.000000 329600 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[size] 1336 699
+[pos] 366 -1
+*-17.000000 201800 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -45,65 +45,32 @@
 [sst_width] 255
 [signals_width] 410
 [sst_expanded] 1
-[sst_vpaned_height] 710
+[sst_vpaned_height] 360
 @28
 Wrapper_tb.CPU.clock
 Wrapper_tb.CPU.multiply_divide.mult_data_resultRDY
-Wrapper_tb.CPU.multiply_divide.ctrl_DIV
-Wrapper_tb.CPU.multiply_divide.ctrl_MULT
-Wrapper_tb.CPU.multiply_divide.data_exception
 @420
 Wrapper_tb.CPU.multiply_divide.data_operandA[31:0]
 Wrapper_tb.CPU.multiply_divide.data_operandB[31:0]
-@28
-Wrapper_tb.CPU.multiply_divide.data_resultRDY
 @22
-Wrapper_tb.CPU.multiply_divide.data_result[31:0]
-@28
-Wrapper_tb.CPU.multiply_divide.div
-Wrapper_tb.CPU.multiply_divide.div_data_exception
-Wrapper_tb.CPU.multiply_divide.div_data_resultRDY
-@22
-Wrapper_tb.CPU.multiply_divide.div_data_result[31:0]
-@28
-Wrapper_tb.CPU.multiply_divide.mult
-Wrapper_tb.CPU.multiply_divide.mult_data_exception
-Wrapper_tb.CPU.multiply_divide.mult_data_resultRDY
-@420
-Wrapper_tb.CPU.multiply_divide.mult_data_result[31:0]
-@24
-Wrapper_tb.CPU.multdiv_result[31:0]
-@28
-Wrapper_tb.CPU.multdiv_resultRDY
-@22
-Wrapper_tb.CPU.multdiv_instruction_latched[31:0]
-@28
-Wrapper_tb.CPU.stall
-@420
-Wrapper_tb.CPU.alu_with_jal[31:0]
-Wrapper_tb.CPU.em_alu_result[31:0]
+Wrapper_tb.CPU.q_dmem[31:0]
+Wrapper_tb.CPU.em_readReg1[4:0]
+Wrapper_tb.CPU.mw_readReg1[4:0]
+Wrapper_tb.CPU.data[31:0]
+Wrapper_tb.CPU.bypass_de_regA[31:0]
+Wrapper_tb.CPU.bypass_em_regA[31:0]
+Wrapper_tb.CPU.de_readReg1[4:0]
+Wrapper_tb.CPU.mw_mem_data[31:0]
+Wrapper_tb.CPU.de_regA[31:0]
+Wrapper_tb.CPU.data_readRegA[31:0]
 @23
-Wrapper_tb.CPU.de_inst[31:0]
-@28
-Wrapper_tb.CPU.flush
+Wrapper_tb.CPU.ctrl_readRegA[4:0]
 @22
-Wrapper_tb.CPU.multiply_divide.multiply.shift_right[65:0]
-Wrapper_tb.CPU.multiply_divide.multiply.product_and_multiplier_out[65:0]
-Wrapper_tb.CPU.multiply_divide.multiply.multiplier[31:0]
-@24
-Wrapper_tb.CPU.ctrl_writeReg[4:0]
-@28
-Wrapper_tb.CPU.ctrl_writeEnable
-@420
-Wrapper_tb.CPU.data_writeReg[31:0]
-@22
-Wrapper_tb.CPU.multiply_divide.divide.negatea[31:0]
-@420
-Wrapper_tb.CPU.multiply_divide.divide.data_operandA[31:0]
-Wrapper_tb.CPU.multiply_divide.divide.data_operandB[31:0]
-@28
-Wrapper_tb.CPU.flush
-@22
-Wrapper_tb.CPU.flushed_decode_instruction[31:0]
+Wrapper_tb.CPU.readReg1_input[4:0]
+Wrapper_tb.CPU.de_readReg1[4:0]
+Wrapper_tb.CPU.em_readReg1[4:0]
+Wrapper_tb.CPU.mw_readReg1[4:0]
+Wrapper_tb.CPU.em_bypass_de_regA[31:0]
+Wrapper_tb.CPU.de_regA[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

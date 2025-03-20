@@ -121,9 +121,16 @@ module processor(
     assign is_sw_decode = (fd_inst[31:27] == 5'b00111); // Opcode for sw
     assign read_rd = is_blt || is_bne || is_jr || is_sw_decode;
     
+
+    wire[4:0] readReg1_input, readReg2_input, writeReg_input;
+
+    // assign readReg1_input = (opcode == 5'b00111 || opcode == 5'b01000) ? rd : rs;
+    assign readReg2_input = (opcode == 5'b00111 || opcode == 5'b01000) ? rs : rt;
+    assign writeReg_input = (opcode == 5'b00111 || opcode == 5'b01000) ? 5'b00000 : rd;
+
     wire read_thirty = opcode == 5'b10110;
-    assign ctrl_readRegA = read_thirty ? 5'b11110 : rs;
-    assign ctrl_readRegB = read_rd ? rd : rt;
+    assign ctrl_readRegA = read_thirty ? 5'b11110 : ((opcode == 5'b00111 || opcode == 5'b01000) ? rd : rs);
+    assign ctrl_readRegB = read_rd ? rd : ((opcode == 5'b00111 || opcode == 5'b01000) ? rs : rt);
     assign target = fd_inst[26:0];
 
     // DE registers
@@ -174,24 +181,30 @@ module processor(
         .dataOut(PC_incremented_de)
     );  
 
-    // Hazard registers
     wire[4:0] de_readReg1, de_readReg2, de_writeReg;
+
+    // WORKING VERSION
+    // assign readReg1_input = rs;
+    // assign readReg2_input = rt;
+    // assign writeReg_input = rd;
+
+
     register_parameter #(5) fd_readReg1_reg(
-        .dataIn(rs),
+        .dataIn(ctrl_readRegA),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
         .dataOut(de_readReg1)
     );
     register_parameter #(5) fd_readReg2_reg(
-        .dataIn(rt),
+        .dataIn(ctrl_readRegB),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
         .dataOut(de_readReg2)
     );
     register_parameter #(5) fd_writeReg_reg(
-        .dataIn(rd),
+        .dataIn(writeReg_input),
         .clk(~clock),
         .writeEnable(~stall),
         .reset(reset),
@@ -326,6 +339,21 @@ module processor(
     assign alu_result_multdiv = (mult || div) ? multdiv_result : alu_result;
     assign alu_with_jal = jal ? PC_incremented_de : alu_result_multdiv; 
 
+    wire[31:0] bypass_em_regA, bypass_em_regB;
+    register bypass_de_regA_reg(
+        .dataIn(bypass_de_regA),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(bypass_em_regA)
+    );
+    register bypass_de_regB_reg(
+        .dataIn(bypass_de_regB),
+        .clk(~clock),
+        .writeEnable(~stall),
+        .reset(reset),
+        .dataOut(bypass_em_regB)
+    );
     register em_alu_reg(
         .dataIn(alu_with_jal),
         .clk(~clock),
@@ -417,7 +445,7 @@ module processor(
     wire is_sw_memory = (em_inst[31:27] == 5'b00111);
 
     assign address_dmem = sw_em_address;
-    assign data = em_bypass_regB;
+    // assign data = em_bypass_regB;
     assign wren = is_sw_memory;
 
     wire[31:0] mw_alu_result, mw_mem_data, mw_inst, PC_mw;
@@ -428,6 +456,7 @@ module processor(
         .reset(reset),
         .dataOut(mw_alu_result)
     );
+    assign data = bypass_em_regA;
     register mw_mem_reg(
         .dataIn(q_dmem),
         .clk(~clock),

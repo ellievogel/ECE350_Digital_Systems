@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Thu Mar 20 13:50:33 2025
+[*] Sat Mar 22 17:46:46 2025
 [*]
-[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/lw_add.vcd"
-[dumpfile_mtime] "Thu Mar 20 13:35:21 2025"
-[dumpfile_size] 725175
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/bex_setx.vcd"
+[dumpfile_mtime] "Sat Mar 22 17:41:00 2025"
+[dumpfile_size] 748117
 [savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/Untitled.gtkw"
-[timestart] 0
-[size] 1336 699
-[pos] 366 -1
-*-17.000000 201800 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[timestart] 188400
+[size] 1336 889
+[pos] 60 48
+*-16.000000 328900 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -41,36 +41,82 @@
 [treeopen] Wrapper_tb.CPU.multiply_divide.
 [treeopen] Wrapper_tb.CPU.multiply_divide.divide.
 [treeopen] Wrapper_tb.CPU.multiply_divide.multiply.
+[treeopen] Wrapper_tb.RegisterFile.
 [treeopen] Wrapper_tb.RegisterFile.loop1[10].
+[treeopen] Wrapper_tb.RegisterFile.loop1[30].
 [sst_width] 255
-[signals_width] 410
+[signals_width] 262
 [sst_expanded] 1
-[sst_vpaned_height] 360
+[sst_vpaned_height] 636
 @28
 Wrapper_tb.CPU.clock
-Wrapper_tb.CPU.multiply_divide.mult_data_resultRDY
-@420
-Wrapper_tb.CPU.multiply_divide.data_operandA[31:0]
-Wrapper_tb.CPU.multiply_divide.data_operandB[31:0]
 @22
-Wrapper_tb.CPU.q_dmem[31:0]
-Wrapper_tb.CPU.em_readReg1[4:0]
-Wrapper_tb.CPU.mw_readReg1[4:0]
-Wrapper_tb.CPU.data[31:0]
-Wrapper_tb.CPU.bypass_de_regA[31:0]
-Wrapper_tb.CPU.bypass_em_regA[31:0]
-Wrapper_tb.CPU.de_readReg1[4:0]
-Wrapper_tb.CPU.mw_mem_data[31:0]
-Wrapper_tb.CPU.de_regA[31:0]
-Wrapper_tb.CPU.data_readRegA[31:0]
-@23
 Wrapper_tb.CPU.ctrl_readRegA[4:0]
-@22
-Wrapper_tb.CPU.readReg1_input[4:0]
-Wrapper_tb.CPU.de_readReg1[4:0]
-Wrapper_tb.CPU.em_readReg1[4:0]
-Wrapper_tb.CPU.mw_readReg1[4:0]
-Wrapper_tb.CPU.em_bypass_de_regA[31:0]
-Wrapper_tb.CPU.de_regA[31:0]
+Wrapper_tb.CPU.ctrl_readRegB[4:0]
+Wrapper_tb.CPU.ctrl_writeReg[4:0]
+@420
+Wrapper_tb.CPU.data_readRegA[31:0]
+Wrapper_tb.CPU.data_readRegB[31:0]
+@24
+Wrapper_tb.CPU.alu_result[31:0]
+@28
+Wrapper_tb.CPU.stall
+Wrapper_tb.CPU.stall_logic
+@24
+Wrapper_tb.RegisterFile.loop1[1].tempwire[31:0]
+Wrapper_tb.CPU.fd_pc[31:0]
+@200
+-
+@24
+Wrapper_tb.CPU.address_dmem[31:0]
+Wrapper_tb.CPU.sw_em_address[31:0]
+Wrapper_tb.CPU.computed_mem_address[31:0]
+Wrapper_tb.CPU.data[31:0]
+@28
+Wrapper_tb.CPU.wren
+@200
+-
+@24
+Wrapper_tb.CPU.ctrl_writeReg[4:0]
+@420
+Wrapper_tb.CPU.data_writeReg[31:0]
+@24
+Wrapper_tb.CPU.q_dmem[31:0]
+@28
+Wrapper_tb.CPU.ctrl_writeEnable
+@200
+-
+@28
+Wrapper_tb.CPU.em_bypass_1
+Wrapper_tb.CPU.is_bex
+@420
+Wrapper_tb.RegisterFile.loop1[30].tempwire[31:0]
+@28
+Wrapper_tb.CPU.setx
+@24
+Wrapper_tb.CPU.exception_de_writeReg[4:0]
+@28
+Wrapper_tb.CPU.execute_is_setx
+@24
+Wrapper_tb.CPU.jump_target[31:0]
+@29
+Wrapper_tb.CPU.exception_with_setX
+@24
+Wrapper_tb.CPU.alu_exception_output[31:0]
+@28
+Wrapper_tb.CPU.em_bypass_2
+Wrapper_tb.CPU.ew_bypass_1
+Wrapper_tb.CPU.ew_bypass_2
+Wrapper_tb.CPU.mw_bypass
+@24
+Wrapper_tb.CPU.mw_bypass_de_regA[31:0]
+Wrapper_tb.CPU.bypass_de_regA[31:0]
+@200
+-
+@28
+Wrapper_tb.CPU.fd_inst[31:0]
+Wrapper_tb.CPU.de_inst[31:0]
+Wrapper_tb.CPU.em_inst[31:0]
+Wrapper_tb.CPU.mw_inst[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

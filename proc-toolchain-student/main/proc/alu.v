@@ -10,7 +10,7 @@ module alu(
     wire add_overflow, sub_overflow;
 
     output [31:0] data_result;
-    output isNotEqual, isLessThan, add_overflow, sub_overflow;
+    output isNotEqual, isLessThan;
     
     wire [31:0] S, sub, and_result, or_result, shift_left_result, shift_right_result;
     wire Cin, Cout, dummy, dummy2;

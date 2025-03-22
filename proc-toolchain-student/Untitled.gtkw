@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Sat Mar 22 17:46:46 2025
+[*] Sat Mar 22 18:12:06 2025
 [*]
-[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/bex_setx.vcd"
-[dumpfile_mtime] "Sat Mar 22 17:41:00 2025"
-[dumpfile_size] 748117
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/lw_add.vcd"
+[dumpfile_mtime] "Sat Mar 22 17:46:54 2025"
+[dumpfile_size] 748442
 [savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/Untitled.gtkw"
-[timestart] 188400
+[timestart] 126500
 [size] 1336 889
-[pos] 60 48
-*-16.000000 328900 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[pos] 373 -1
+*-16.000000 268700 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -47,7 +47,7 @@
 [sst_width] 255
 [signals_width] 262
 [sst_expanded] 1
-[sst_vpaned_height] 636
+[sst_vpaned_height] 596
 @28
 Wrapper_tb.CPU.clock
 @22
@@ -86,23 +86,10 @@ Wrapper_tb.CPU.q_dmem[31:0]
 Wrapper_tb.CPU.ctrl_writeEnable
 @200
 -
-@28
-Wrapper_tb.CPU.em_bypass_1
-Wrapper_tb.CPU.is_bex
-@420
-Wrapper_tb.RegisterFile.loop1[30].tempwire[31:0]
-@28
-Wrapper_tb.CPU.setx
-@24
-Wrapper_tb.CPU.exception_de_writeReg[4:0]
-@28
-Wrapper_tb.CPU.execute_is_setx
-@24
-Wrapper_tb.CPU.jump_target[31:0]
-@29
-Wrapper_tb.CPU.exception_with_setX
 @24
 Wrapper_tb.CPU.alu_exception_output[31:0]
+@29
+Wrapper_tb.CPU.em_bypass_1
 @28
 Wrapper_tb.CPU.em_bypass_2
 Wrapper_tb.CPU.ew_bypass_1
@@ -118,5 +105,8 @@ Wrapper_tb.CPU.fd_inst[31:0]
 Wrapper_tb.CPU.de_inst[31:0]
 Wrapper_tb.CPU.em_inst[31:0]
 Wrapper_tb.CPU.mw_inst[31:0]
+@24
+Wrapper_tb.CPU.alu_unit.data_operandA[31:0]
+Wrapper_tb.CPU.alu_unit.data_operandB[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

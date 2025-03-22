@@ -226,26 +226,18 @@ module processor(
 
     wire[31:0] sign_extended_immediate;
     wire [31:0] computed_mem_address;
-    // cla adder_sw(
-    //     .S(computed_mem_address),
-    //     .Cout(),
-    //     .overflow(),
-    //     .A(de_regA),
-    //     .B(sign_extended_immediate),
-    //     .Cin(1'b0)
-    // );
 
     assign computed_mem_address = alu_result;
 
     wire[31:0] em_bypass_de_regA, mw_bypass_de_regA;
     assign mw_bypass_de_regA = ew_bypass_1 ? data_writeReg : de_regA;
-    assign em_bypass_de_regA = em_bypass_1 ? em_alu_result : de_regA;
+    assign em_bypass_de_regA = em_bypass_1 ? q_dmem_corrected : de_regA;
 
     wire[31:0] bypass_de_regA = em_bypass_1 ? em_bypass_de_regA : mw_bypass_de_regA;
 
     wire[31:0] em_bypass_de_regB, mw_bypass_de_regB;
     assign mw_bypass_de_regB = ew_bypass_2 ? data_writeReg : de_regB;
-    assign em_bypass_de_regB = em_bypass_2 ? em_alu_result : de_regB;
+    assign em_bypass_de_regB = em_bypass_2 ? q_dmem_corrected : de_regB;
     wire[31:0] bypass_de_regB = em_bypass_2 ? em_bypass_de_regB : mw_bypass_de_regB;
 
     wire[31:0] alu_result, alu_input;
@@ -469,9 +461,12 @@ module processor(
         .reset(reset),
         .dataOut(mw_alu_result)
     );
+
     assign data = bypass_em_regB;
+    wire[31:0] q_dmem_corrected = (em_inst[31:27] == 5'b01000) ? q_dmem : em_alu_result;
+
     register mw_mem_reg(
-        .dataIn(q_dmem),
+        .dataIn(q_dmem_corrected),
         .clk(~clock),
         .writeEnable(1'b1),
         .reset(reset),
@@ -582,7 +577,7 @@ module processor(
     );
 
     wire[31:0] exception_value_to_write = mw_exception ? mw_exception_value : jump_target_mw;
-    assign data_writeReg = (mw_inst[31:27] == 5'b01000) ? mw_mem_data : mw_alu_result;
+    assign data_writeReg = mw_mem_data;
 
     // ================BYPASSING/STALLING=============== //
 
@@ -615,6 +610,6 @@ module processor(
                     || (de_inst[31:27] == 5'b00010)  // bne
                     || (de_inst[31:27] == 5'b00110); // blt
 
-    wire stall_logic = lw_in_memory && ((de_rs_uses_lw_rd && inst_uses_rs) || ((de_rt_uses_lw_rd && inst_uses_rt) && de_inst[31:27] != 5'b00111));
+    wire stall_logic = 1'b0;//lw_in_memory && ((de_rs_uses_lw_rd && inst_uses_rs) || ((de_rt_uses_lw_rd && inst_uses_rt) && de_inst[31:27] != 5'b00111));
 
 endmodule

@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Sat Mar 22 18:12:06 2025
+[*] Sat Mar 22 18:56:51 2025
 [*]
-[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/lw_add.vcd"
-[dumpfile_mtime] "Sat Mar 22 17:46:54 2025"
-[dumpfile_size] 748442
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/jr.vcd"
+[dumpfile_mtime] "Sat Mar 22 18:52:15 2025"
+[dumpfile_size] 855967
 [savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/Untitled.gtkw"
-[timestart] 126500
+[timestart] 292200
 [size] 1336 889
-[pos] 373 -1
-*-16.000000 268700 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[pos] 456 -1
+*-16.000000 365900 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -45,9 +45,9 @@
 [treeopen] Wrapper_tb.RegisterFile.loop1[10].
 [treeopen] Wrapper_tb.RegisterFile.loop1[30].
 [sst_width] 255
-[signals_width] 262
+[signals_width] 265
 [sst_expanded] 1
-[sst_vpaned_height] 596
+[sst_vpaned_height] 636
 @28
 Wrapper_tb.CPU.clock
 @22
@@ -57,7 +57,6 @@ Wrapper_tb.CPU.ctrl_writeReg[4:0]
 @420
 Wrapper_tb.CPU.data_readRegA[31:0]
 Wrapper_tb.CPU.data_readRegB[31:0]
-@24
 Wrapper_tb.CPU.alu_result[31:0]
 @28
 Wrapper_tb.CPU.stall
@@ -67,10 +66,11 @@ Wrapper_tb.RegisterFile.loop1[1].tempwire[31:0]
 Wrapper_tb.CPU.fd_pc[31:0]
 @200
 -
-@24
+@420
 Wrapper_tb.CPU.address_dmem[31:0]
 Wrapper_tb.CPU.sw_em_address[31:0]
 Wrapper_tb.CPU.computed_mem_address[31:0]
+@24
 Wrapper_tb.CPU.data[31:0]
 @28
 Wrapper_tb.CPU.wren
@@ -86,11 +86,14 @@ Wrapper_tb.CPU.q_dmem[31:0]
 Wrapper_tb.CPU.ctrl_writeEnable
 @200
 -
-@24
+@420
 Wrapper_tb.CPU.alu_exception_output[31:0]
-@29
-Wrapper_tb.CPU.em_bypass_1
 @28
+Wrapper_tb.CPU.is_jr_execute
+@25
+Wrapper_tb.CPU.jr_destination[31:0]
+@28
+Wrapper_tb.CPU.em_bypass_1
 Wrapper_tb.CPU.em_bypass_2
 Wrapper_tb.CPU.ew_bypass_1
 Wrapper_tb.CPU.ew_bypass_2
@@ -108,5 +111,13 @@ Wrapper_tb.CPU.mw_inst[31:0]
 @24
 Wrapper_tb.CPU.alu_unit.data_operandA[31:0]
 Wrapper_tb.CPU.alu_unit.data_operandB[31:0]
+Wrapper_tb.CPU.alu_unit.data_operandA[31:0]
+Wrapper_tb.CPU.alu_unit.data_operandB[31:0]
+@28
+Wrapper_tb.CPU.alu_unit.ctrl_ALUopcode[4:0]
+Wrapper_tb.CPU.is_blt_execute
+Wrapper_tb.CPU.is_bne_execute
+@22
+Wrapper_tb.CPU.alu_opcode_intermediate[4:0]
 [pattern_trace] 1
 [pattern_trace] 0

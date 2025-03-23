@@ -246,8 +246,12 @@ module processor(
 
     assign sign_extended_immediate = {{15{de_inst[16]}}, de_inst[16:0]};
     assign alu_input = (de_inst[31:27] == 5'b00101 || de_inst[31:27] == 5'b00111 || de_inst[31:27] == 5'b01000) ? sign_extended_immediate : bypass_de_regB;
-    assign alu_opcode_intermediate = (de_inst[31:27] == 5'b00101) ? 5'b0 : de_inst[6:2];
+    // assign alu_opcode_intermediate = (de_inst[31:27] == 5'b00101) ? 5'b0 : de_inst[6:2];
+    assign alu_opcode_intermediate = (de_inst[31:27] == 5'b00000) ? de_inst[6:2] : 5'b00000;
     assign alu_opcode = (is_blt_execute || is_bne_execute) ? 5'b00001 : alu_opcode_intermediate;
+
+    // if opcode == 5'b00000 then alu opcode is de_inst[6:2]
+    // else, 0
 
     wire is_blt_inst, is_bne_inst;
     wire is_jump = (de_inst[31:27] == 5'b00001 || jal);  // J or JAL
@@ -262,7 +266,7 @@ module processor(
     wire take_branch = is_jump || is_bex;
     wire [31:0] jump_target = {5'b0, de_inst[26:0]};
     wire [31:0] next_pc = take_branch ? jump_target : PC_incremented;
-    wire [31:0] jr_destination = de_regB;
+    wire [31:0] jr_destination = bypass_de_regB;
     wire [31:0] bne_destination;
     wire [31:0] bne_pc = (is_bne_inst || is_blt_inst) ? bne_destination : next_pc;
     assign PC_in = is_jr_execute ? jr_destination : bne_pc;

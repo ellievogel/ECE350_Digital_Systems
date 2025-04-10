@@ -1,42 +1,42 @@
 `timescale 1 ns / 100 ps
 
-module mux_8_tb;
+module moore_mod5_tb;
 
-    reg [31:0] in0, in1, in2, in3, in4, in5, in6, in7;
-    reg [2:0] select;
-    wire [31:0] out;
+    reg clk, reset, button;
+    wire [2:0] count;
+    wire trigger;
 
-    mux_8 mux(.out(out), .select(select),
-              .in0(in0), .in1(in1), .in2(in2), .in3(in3),
-              .in4(in4), .in5(in5), .in6(in6), .in7(in7));
-
-    initial begin
-        // Initialize inputs in decimal
-        in0 = 32'd1;
-        in1 = 32'd2;
-        in2 = 32'd4;
-        in3 = 32'd8;
-        in4 = 32'd16;
-        in5 = 32'd32;
-        in6 = 32'd64;
-        in7 = 32'd128;
-        select = 3'b000;
-        
-        #80;
-        $finish;
-    end
-
-    always
-        #10 select = select + 1;
-
-    always @(select) begin
-        #5;
-        $display("Select:%b => Out:%h", select, out);
-    end
+    moore_mod5_counter moore_counter (
+        .clk(clk), .reset(reset), .button(button),
+        .count(count), .trigger(trigger)
+    );
 
     initial begin
-        $dumpfile("mux_8_wave_file.vcd");
-        $dumpvars(0, mux_8_tb);
+        clk = 0;
+        reset = 1;
+        button = 0;
+
+        #10 reset = 0;  // Release reset
+
+        // Simulate button presses to increment the counter
+        #10 button = 1; #10 button = 0;
+        #10 button = 1; #10 button = 0;
+        #10 button = 1; #10 button = 0;
+        #10 button = 1; #10 button = 0;
+        #10 button = 1; #10 button = 0;  // Reaches 4
+
+        #20 $finish;
+    end
+
+    always #5 clk = ~clk; // Generate clock signal
+
+    always @(posedge clk) begin
+        $display("Time: %0t | Count = %d, Trigger = %b", $time, count, trigger);
+    end
+
+    initial begin
+        $dumpfile("moore_mod5_wave.vcd");
+        $dumpvars(0, moore_mod5_tb);
     end
 
 endmodule

@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Sat Mar 22 18:56:51 2025
+[*] Mon Mar 24 20:43:14 2025
 [*]
-[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/jr.vcd"
-[dumpfile_mtime] "Sat Mar 22 18:52:15 2025"
-[dumpfile_size] 855967
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/misc_memory.vcd"
+[dumpfile_mtime] "Mon Mar 24 20:38:37 2025"
+[dumpfile_size] 1700053
 [savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/Untitled.gtkw"
-[timestart] 292200
-[size] 1336 889
-[pos] 456 -1
-*-16.000000 365900 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[timestart] 237700
+[size] 1336 974
+[pos] 529 -1
+*-16.000000 364500 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -45,79 +45,99 @@
 [treeopen] Wrapper_tb.RegisterFile.loop1[10].
 [treeopen] Wrapper_tb.RegisterFile.loop1[30].
 [sst_width] 255
-[signals_width] 265
+[signals_width] 319
 [sst_expanded] 1
-[sst_vpaned_height] 636
+[sst_vpaned_height] 540
 @28
 Wrapper_tb.CPU.clock
 @22
 Wrapper_tb.CPU.ctrl_readRegA[4:0]
 Wrapper_tb.CPU.ctrl_readRegB[4:0]
-Wrapper_tb.CPU.ctrl_writeReg[4:0]
-@420
-Wrapper_tb.CPU.data_readRegA[31:0]
-Wrapper_tb.CPU.data_readRegB[31:0]
-Wrapper_tb.CPU.alu_result[31:0]
-@28
-Wrapper_tb.CPU.stall
-Wrapper_tb.CPU.stall_logic
-@24
-Wrapper_tb.RegisterFile.loop1[1].tempwire[31:0]
-Wrapper_tb.CPU.fd_pc[31:0]
-@200
--
-@420
-Wrapper_tb.CPU.address_dmem[31:0]
-Wrapper_tb.CPU.sw_em_address[31:0]
-Wrapper_tb.CPU.computed_mem_address[31:0]
-@24
-Wrapper_tb.CPU.data[31:0]
-@28
-Wrapper_tb.CPU.wren
-@200
--
 @24
 Wrapper_tb.CPU.ctrl_writeReg[4:0]
 @420
 Wrapper_tb.CPU.data_writeReg[31:0]
-@24
-Wrapper_tb.CPU.q_dmem[31:0]
 @28
 Wrapper_tb.CPU.ctrl_writeEnable
-@200
--
-@420
-Wrapper_tb.CPU.alu_exception_output[31:0]
-@28
-Wrapper_tb.CPU.is_jr_execute
-@25
-Wrapper_tb.CPU.jr_destination[31:0]
-@28
-Wrapper_tb.CPU.em_bypass_1
-Wrapper_tb.CPU.em_bypass_2
-Wrapper_tb.CPU.ew_bypass_1
-Wrapper_tb.CPU.ew_bypass_2
-Wrapper_tb.CPU.mw_bypass
 @24
-Wrapper_tb.CPU.mw_bypass_de_regA[31:0]
-Wrapper_tb.CPU.bypass_de_regA[31:0]
+Wrapper_tb.CPU.mw_alu_result[31:0]
+@25
+Wrapper_tb.CPU.q_dmem[31:0]
+@200
+-
+@24
++{reg 1} Wrapper_tb.RegisterFile.loop1[1].tempwire[31:0]
++{reg 2} Wrapper_tb.RegisterFile.loop1[2].tempwire[31:0]
+@c00024
++{reg 3} Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+@28
+(0)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(1)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(2)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(3)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(4)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(5)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(6)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(7)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(8)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(9)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(10)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(11)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(12)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(13)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(14)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(15)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(16)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(17)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(18)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(19)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(20)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(21)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(22)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(23)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(24)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(25)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(26)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(27)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(28)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(29)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(30)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+(31)Wrapper_tb.RegisterFile.loop1[3].tempwire[31:0]
+@1401200
+-group_end
+@24
++{reg 4} Wrapper_tb.RegisterFile.loop1[4].tempwire[31:0]
++{reg 5} Wrapper_tb.RegisterFile.loop1[5].tempwire[31:0]
++{reg 6} Wrapper_tb.RegisterFile.loop1[4].tempwire[31:0]
++{reg 10} Wrapper_tb.RegisterFile.loop1[10].tempwire[31:0]
 @200
 -
 @28
+Wrapper_tb.CPU.mult
+Wrapper_tb.CPU.div
+Wrapper_tb.CPU.stall
+@24
+Wrapper_tb.CPU.multdiv_result[31:0]
+@28
+Wrapper_tb.CPU.multdiv_resultRDY
+@24
+Wrapper_tb.CPU.address_dmem[31:0]
+@200
+-
+@24
+Wrapper_tb.CPU.final_ALU_A[31:0]
+Wrapper_tb.CPU.final_ALU_B[31:0]
+@22
+Wrapper_tb.CPU.bypass_de_regA[31:0]
 Wrapper_tb.CPU.fd_inst[31:0]
+@28
+Wrapper_tb.CPU.is_sw_decode
+@22
 Wrapper_tb.CPU.de_inst[31:0]
 Wrapper_tb.CPU.em_inst[31:0]
-Wrapper_tb.CPU.mw_inst[31:0]
-@24
-Wrapper_tb.CPU.alu_unit.data_operandA[31:0]
-Wrapper_tb.CPU.alu_unit.data_operandB[31:0]
-Wrapper_tb.CPU.alu_unit.data_operandA[31:0]
-Wrapper_tb.CPU.alu_unit.data_operandB[31:0]
 @28
-Wrapper_tb.CPU.alu_unit.ctrl_ALUopcode[4:0]
-Wrapper_tb.CPU.is_blt_execute
-Wrapper_tb.CPU.is_bne_execute
+Wrapper_tb.CPU.is_sw_memory
 @22
-Wrapper_tb.CPU.alu_opcode_intermediate[4:0]
+Wrapper_tb.CPU.mw_inst[31:0]
 [pattern_trace] 1
 [pattern_trace] 0

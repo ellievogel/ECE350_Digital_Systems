@@ -1,52 +1,65 @@
-.text
-    .align  2
-
 start:
     # loop until r4 is set to 1 (the button has been pushed)
-    # r4 is set to 1 when the button is pushed`
     nop
     nop
-    beq     $r4,    0,      start
+
+    bne     $r4,        $r0,    after_start
+    j       start
+
+after_start:
+    addi    $r1,        $r1,    1
 
 game:
-    beq     $r5,    1,      up
-    beq     $r6,    1,      down
-    beq     $r7,    1,      right
-    beq     $r8,    1,      left
-    beq     $r9,    1,      move_claw
-    j       game
+    bne     $r5,        $r1,    check_down
+    j       up
+
+check_down:
+    bne     $r6,        $r1,    check_right
+    j       down
+
+check_right:
+    bne     $r7,        $r1,    check_left
+    j       right
+
+check_left:
+    bne     $r8,        $r1,    check_move_claw
+    j       left
+
+check_move_claw:
+    bne     $r9,        $r1,    game
+    j       move_claw
 
 up:
-    beq     $r5,    0,      game
-    addi    $r10,   $r10,   1           # signal to move up
+    bne     $r5,        $r1,    game
+    addi    $r10,       $r10,   1               # signal to move up
     nop
     nop
-    beq     $r5,    1,      up
+    j       up
 
 down:
-    beq     $r6,    0,      game
-    addi    $r11,   $r11,   1           # signal to move down
+    bne     $r6,        $r1,    game
+    addi    $r11,       $r11,   1               # signal to move down
     nop
     nop
-    beq     $r6,    1,      down
+    j       down
 
 right:
-    beq     $r7,    0,      game
-    addi    $r12,   $r12,   1           # signal to move right
+    bne     $r7,        $r1,    game
+    addi    $r12,       $r12,   1               # signal to move right
     nop
     nop
-    beq     $r7,    1,      right
+    j       right
 
 left:
-    beq     $r8,    0,      game
-    addi    $r13,   $r13,   1           # signal to move left
+    bne     $r8,        $r1,    game
+    addi    $r13,       $r13,   1               # signal to move left
     nop
     nop
-    beq     $r8,    1,      left
+    j       left
 
 move_claw:
-    subi    $r4,    $r4,    1
+    addi    $r4,        $r4,    -1              # replacing subi
     nop
     nop
-    beq     $r4,    0,      start
-
+    bne     $r4,        $r0,    move_claw
+    j       start

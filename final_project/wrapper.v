@@ -28,69 +28,8 @@ module Wrapper (CLK100MHZ, JB1, JB2, JB3, JB4, input_motor_sig, reset);
     input CLK100MHZ, reset, input_motor_sig;
     output JB1, JB2, JB3, JB4;
     
-    wire step_clk;  // Clock for stepper motor controller
-
-    // Clock Divider to slow down the clock if needed (you can adjust frequency here)
-    ClockDivider625Hz clkdiv_inst (
-        .clk_in(CLK100MHZ), 
-        .reset(reset), 
-        .clk_out(step_clk)
-    );
-
-    // Stepper motor controller
-    StepperMotorController stepper_ctrl (
-        .clk(step_clk), 
-        .reset(reset), 
-        .jb1(JB1), 
-        .jb2(JB2), 
-        .jb3(JB3), 
-        .jb4(JB4)
-    );
-    
-//    wire clk_62hz;
-//    wire pwm_signal_1, pwm_signal_2, pwm_signal_3, pwm_signal_4;
-    
-//    ClockDivider625Hz clkdiv_inst (
-//        .clk_in(CLK100MHZ),
-//        .reset(reset),
-//        .clk_out(clk_62hz)
-//    );
-    
-//    PWMSerializer pwm_gen (
-//        .clk(clk_62hz),
-//        .reset(reset),
-//        .duty_cycle(10'd512),  // Example 50% duty cycle
-//        .signal(pwm_signal_1)
-//    );
-    
-//    PWMSerializer pwm_gen (
-//        .clk(clk_62hz),
-//        .reset(reset),
-//        .duty_cycle(10'd512),  // Example 50% duty cycle
-//        .signal(pwm_signal_2)
-//    );
-    
-//    PWMSerializer pwm_gen (
-//        .clk(clk_62hz),
-//        .reset(reset),
-//        .duty_cycle(10'd512),  // Example 50% duty cycle
-//        .signal(pwm_signal_3)
-//    );
-    
-//    PWMSerializer pwm_gen (
-//        .clk(clk_62hz),
-//        .reset(reset),
-//        .duty_cycle(10'd512),  // Example 50% duty cycle
-//        .signal(pwm_signal_4)
-//    );
-    
-//    // Output PWM signal to one of the PMOD pins
-//    assign JB1 = pwm_signal_1;
-//    assign JB2 = pwm_signal_2;
-//    assign JB3 = pwm_signal_3;
-//    assign JB4 = pwm_signal_4;
-
-    
+    // move left
+    claw_movement claw(.CLK100MHZ(CLK100MHZ), .input_motor_sig(input_motor_sig), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4));
 
 	wire rwe, mwe;
 	wire[4:0] rd, rs1, rs2;

@@ -3,6 +3,8 @@ start:
     nop
     nop
 
+    # query until button pressed
+    # lw $r4 $rwhatever means button pressed
     bne     $r4,        $r0,    after_start
     j       start
 

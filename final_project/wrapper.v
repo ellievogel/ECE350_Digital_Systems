@@ -24,12 +24,34 @@
  *
  **/
 
-module Wrapper (CLK100MHZ, JB1, JB2, JB3, JB4, input_motor_sig, reset);
-    input CLK100MHZ, reset, input_motor_sig;
-    output JB1, JB2, JB3, JB4;
+module Wrapper (
+    input CLK100MHZ,
+    input reset,
+    input JA7, JA8,
+    input JC1, JC2, JC3, JC4,// JC1 = left, JC2 = right, JC3 = up, JC4 = down
+    output JB1, JB2, JB3, JB4,
+    output JA1, JA2, JA3, JA4
+    );
+
+    // output JB7, JB8, JB9, JB10;
     
-    // move left
-    claw_movement claw(.CLK100MHZ(CLK100MHZ), .input_motor_sig(input_motor_sig), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4));
+//    assign input_motor_sig = 1;
+// Query register 1 to see whether or not to move claw
+    
+    // move left/right
+    claw_movement claw_left_right(.CLK100MHZ(CLK100MHZ), .forwards(JC2), .stopper_signal(JA8), .backwards(JC1), .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4));
+    // Write values to registers with movement
+    
+    
+    // move forwards/backwards
+    claw_movement claw_forwards_backwards(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA7), .forwards(JD1), .backwards(JC4), .jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
+    
+    claw_movement claw_up_down(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA7), .forwards(JC3), .backwards(nothing), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4));
+    
+    // JB7, JB8, JB9, JB10 outputs
+    // JC7 is button, JC8 is high
+    
+    // claw_drop claw_drop_and_up(.CLK100MHZ(CLK100MHZ), .go(JC7), .jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
 
 	wire rwe, mwe;
 	wire[4:0] rd, rs1, rs2;

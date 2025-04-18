@@ -28,33 +28,42 @@ module Wrapper (
     input CLK100MHZ,
     input reset,
     input JA7, JA8,
-    input JC1, JC2, JC3, JC4,// JC1 = left, JC2 = right, JC3 = up, JC4 = down
-    input JD1,
+    input JC1, JC2, JC3, JC4,
     output JB1, JB2, JB3, JB4,
-    output JA1, JA2, JA3, JA4,
-    output JB7, JB8, JB9, JB10
-    
+    output JA1, JA2, JA3, JA4
     );
 
-    // output JB7, JB8, JB9, JB10;
+	// Wire to represent signals (assume JC1=left, JC2=right, JC3=forward, JC4=backward, JC7=claw)
+    wire [31:0] control_bits;
+    wire [31:0] control_addr = 32'd1000; // Address 1000
+
+    // Combine the signals into a 5-bit pattern and zero-extend to 32 bits
+    assign control_bits = {27'b0, JD1, JC2, JC1, JC3, JC4}; 
+    // Bit 4: JD1 (claw)
+    // Bit 3: JC2 (backward)
+    // Bit 2: JC1 (forward)
+    // Bit 1: JC3 (left)
+    // Bit 0: JC4 (right)
+
+    // Drive the memory input signals manually
+    wire manual_write_en = 1'b1; // Always write for this use case
+    wire [11:0] control_addr_short = control_addr[11:0];
+
+    // RAM module updated to include our override for this signal
+    RAM ProcMem(
+        .clk(clock),
+        .wEn(mwe | manual_write_en),
+        .addr(mwe ? memAddr[11:0] : control_addr_short),
+        .dataIn(mwe ? memDataIn : control_bits),
+        .dataOut(memDataOut)
+    );
+
+    claw_movement claw_left_right(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA8), .forwards(JC4), .backwards(JC3), .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4));
     
-//    assign input_motor_sig = 1;
-// Query register 1 to see whether or not to move claw
-    
-    // move left/right
-    claw_movement claw_left_right(.CLK100MHZ(CLK100MHZ),.stopper_signal(JA8), .forwards(JC4), .backwards(JC3), .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4));
-    // Write values to registers with movement
-    
-    
-    // move forwards/backwards
     claw_movement claw_forwards_backwards(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA7), .forwards(JC1), .backwards(JC2), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4));
      
-    //claw_movement claw_up_down(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA7), .forwards(1'b1), .backwards(JD1), .jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
-    claw_drop blahhhh(.CLK100MHZ(CLK100MHZ), .go(JD1),.jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
-    // JB7, JB8, JB9, JB10 outputs
-    // JC7 is button, JC8 is high
-    
-    // claw_drop claw_drop_and_up(.CLK100MHZ(CLK100MHZ), .go(JC7), .jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
+    claw_drop blahhhh(.CLK100MHZ(CLK100MHZ), .go(JD1), .jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
+
 
 	wire rwe, mwe;
 	wire[4:0] rd, rs1, rs2;
@@ -94,11 +103,11 @@ module Wrapper (
 		.ctrl_readRegA(rs1), .ctrl_readRegB(rs2), 
 		.data_writeReg(rData), .data_readRegA(regA), .data_readRegB(regB));
 						
-	// Processor Memory (RAM)
-	RAM ProcMem(.clk(clock), 
-		.wEn(mwe), 
-		.addr(memAddr[11:0]), 
-		.dataIn(memDataIn), 
-		.dataOut(memDataOut));
+	// // Processor Memory (RAM)
+	// RAM ProcMem(.clk(clock), 
+	// 	.wEn(mwe), 
+	// 	.addr(memAddr[11:0]), 
+	// 	.dataIn(memDataIn), 
+	// 	.dataOut(memDataOut));
 
 endmodule

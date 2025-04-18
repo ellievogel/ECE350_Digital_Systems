@@ -1,65 +1,80 @@
 start:
-    # loop until r4 is set to 1 (the button has been pushed)
-    nop
-    nop
-
-    bne     $r4,        $r0,    after_start
-    j       start
-
-after_start:
-    addi    $r1,        $r1,    1
+    # make bitmasks
+    addi    $r1,        $r0,        1                   # 1
+    addi    $r2,        $r0,        1
+    sll     $r2,        $r2,        1                   # 2
+    addi    $r4,        $r0,        1
+    sll     $r4,        $r4,        2                   # 4
+    addi    $r8,        $r0,        1
+    sll     $r8,        $r8,        3                   # 8
+    addi    $r16,       $r0,        1
+    sll     $r16,       $r16,       4                   # 16
+    j       game
 
 game:
-    bne     $r5,        $r1,    check_down
-    j       up
+    lw      $10,        1000($r0)
 
-check_down:
-    bne     $r6,        $r1,    check_right
-    j       down
+    # $r3 = right
+    and     $r3,        $r10,       $r1
+    bne     $r3,        $r0,        right
 
-check_right:
-    bne     $r7,        $r1,    check_left
-    j       right
+    # $r5 = left
+    and     $r5,        $r10,       $r2
+    bne     $r5,        $r0,        left
 
-check_left:
-    bne     $r8,        $r1,    check_move_claw
-    j       left
+    # $r7 = forwards
+    and     $r7,        $r10,       $r4
+    bne     $r7,        $r0,        forwards
 
-check_move_claw:
-    bne     $r9,        $r1,    game
-    j       move_claw
+    # $r9 = backwards
+    and     $r9,        $r10,       $r8
+    bne     $r9,        $r0,        backwards
 
-up:
-    bne     $r5,        $r1,    game
-    addi    $r10,       $r10,   1               # signal to move up
-    nop
-    nop
-    j       up
-
-down:
-    bne     $r6,        $r1,    game
-    addi    $r11,       $r11,   1               # signal to move down
-    nop
-    nop
-    j       down
+    # $r11 = claw
+    and     $r11,       $r10,       $r16
+    bne     $r11,       $r0,        claw
 
 right:
-    bne     $r7,        $r1,    game
-    addi    $r12,       $r12,   1               # signal to move right
-    nop
-    nop
+    lw      $10,        1000($r0)
+    and     $r3,        $r10,       $r1
+    sub     $r12,       $r3,        $r0                 # temp = $r3
+    bne     $r12,       $r0,        right_continue
+    j       game
+right_continue:
     j       right
 
 left:
-    bne     $r8,        $r1,    game
-    addi    $r13,       $r13,   1               # signal to move left
-    nop
-    nop
+    lw      $10,        1000($r0)
+    and     $r5,        $r10,       $r2
+    sub     $r12,       $r5,        $r0
+    bne     $r12,       $r0,        left_continue
+    j       game
+left_continue:
     j       left
 
-move_claw:
-    addi    $r4,        $r4,    -1              # replacing subi
-    nop
-    nop
-    bne     $r4,        $r0,    move_claw
-    j       start
+forwards:
+    lw      $r10,       1000($r0)
+    and     $r7,        $r10,       $r4
+    sub     $r12,       $r7,        $r0
+    bne     $r12,       $r0,        forwards_continue
+    j       game
+forwards_continue:
+    j       forwards
+
+backwards:
+    lw      $r10,       1000($r0)
+    and     $r9,        $r10,       $r8
+    sub     $r12,       $r9,        $r0
+    bne     $r12,       $r0,        backwards_continue
+    j       game
+backwards_continue:
+    j       backwards
+
+claw:
+    lw      $r10,       1000($r0)
+    and     $r11,       $r10,       $r16
+    sub     $r12,       $r11,       $r0
+    bne     $r12,       $r0,        claw_continue
+    j       game
+claw_continue:
+    j       claw

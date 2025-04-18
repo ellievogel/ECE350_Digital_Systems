@@ -35,7 +35,7 @@ game:
     bne     $r11,       $r0,        claw
 
 right:
-    lw      $10,        1000($r0)
+    lw      $r10,       1000($r0)
     and     $r3,        $r10,       $r1
     sub     $r12,       $r3,        $r0                 # temp = $r3
     bne     $r12,       $r0,        right_continue
@@ -44,7 +44,7 @@ right_continue:
     j       right
 
 left:
-    lw      $10,        1000($r0)
+    lw      $r10,       1000($r0)
     and     $r5,        $r10,       $r2
     sub     $r12,       $r5,        $r0
     bne     $r12,       $r0,        left_continue

@@ -12,7 +12,7 @@ start:
     j       game
 
 game:
-    lw      $10,        1000($r0)
+    lw      $r10,        1000($r0)
 
     # $r3 = right
     and     $r3,        $r10,       $r1

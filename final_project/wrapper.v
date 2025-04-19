@@ -28,17 +28,21 @@ module Wrapper (
     input CLK100MHZ,
     input reset,
     input JA7, JA8,
-    input JC1, JC2, JC3, JC4,
+    input JD2,//button to start game
+    input JC1, JC2, JC3, JC4,JD1,
     output JB1, JB2, JB3, JB4,
-    output JA1, JA2, JA3, JA4
+    output JA1, JA2, JA3, JA4,
+    output JB7
     );
+   
 
 	// Wire to represent signals (assume JC1=left, JC2=right, JC3=forward, JC4=backward, JC7=claw)
     wire [31:0] control_bits;
     wire [31:0] control_addr = 32'd1000; // Address 1000
 
     // Combine the signals into a 5-bit pattern and zero-extend to 32 bits
-    assign control_bits = {27'b0, JD1, JC2, JC1, JC3, JC4}; 
+    // CHANGE THIS ELLIE VOGEL
+    assign control_bits = {27'b0, JC2, JC2, JC1, JC3, JC4}; 
     // Bit 4: JD1 (claw)
     // Bit 3: JC2 (backward)
     // Bit 2: JC1 (forward)
@@ -58,12 +62,16 @@ module Wrapper (
         .dataOut(memDataOut)
     );
 
-    claw_movement claw_left_right(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA8), .forwards(JC4), .backwards(JC3), .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4));
+    claw_movement claw_left_right(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA8), .forwards(JC4), .backwards(JC3), .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4), .start_game(JD2), .claw_dropped(JD1), .claw_up(claw_up));
     
-    claw_movement claw_forwards_backwards(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA7), .forwards(JC1), .backwards(JC2), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4));
-     
-    claw_drop blahhhh(.CLK100MHZ(CLK100MHZ), .go(JD1), .jb1(JB7), .jb2(JB8), .jb3(JB9), .jb4(JB10));
+    claw_movement claw_forwards_backwards(.CLK100MHZ(CLK100MHZ), .stopper_signal(JA7), .forwards(JC1), .backwards(JC2), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4), .start_game(JD2), .claw_dropped(JD1), .claw_up(claw_up));
+    wire claw_up;
+    // wire[9:0] duty_cycle = 10'd30;
+    claw_drop blaaah(.CLK100MHZ(CLK100MHZ), .go(JD1), .reset(reset), .jb1(JB7), .claw_up(claw_up));
+    // ServoController servo(.clk(CLK100MHZ), .duty_cycle(duty_cycle), .servoSignal(JB7));
+//    wire[9:0] duty_cycle = 9'd512;
 
+//    PWMSerializer serializer (.clk(CLK100MHZ), .reset(reset), .duty_cycle(duty_cycle), .signal(pwm_signal));
 
 	wire rwe, mwe;
 	wire[4:0] rd, rs1, rs2;

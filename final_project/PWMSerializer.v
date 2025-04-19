@@ -7,7 +7,7 @@ and outputs a PWM signal with the specified duty cycle.
 module PWMSerializer #(
     parameter 
     // Parameters in nanoseconds
-    PERIOD_WIDTH_NS = 1000,  // Total width of the period in nanoseconds
+    PERIOD_WIDTH_NS = 3030303,  // Total width of the period in nanoseconds
     SYS_FREQ_MHZ   = 100     // Base FPGA Clock in MHz; Nexys A7 uses a 100 MHz Clock
     )(
     input clk,              // System Clock

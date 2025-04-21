@@ -21,29 +21,36 @@ module Wrapper (
     
     wire io_read, io_write;
     
-    assign io_read = (memAddr == 32'd4096) ? 1'b1 : 1'b0;
-    assign io_write = (memAddr == 32'd4097) ? 1'b1 : 1'b0;
+    assign io_read = (memAddr == 32'd10) ? 1'b1 : 1'b0;
+    assign io_write = (memAddr == 32'd20) ? 1'b1 : 1'b0;
 
-    wire [31:0] ja_1_2_input = {30'b0, JA2, JA1};
+    wire [31:0] ja_1_2_input;
+    reg [31:0] ja_12_reg;
+    assign ja_1_2_input = {30'd0, JA2, JA1};
+    //wire [31:0] ja_1_2_input = {30'b0, 1'b0, 1'b0};
     // Hard-code value 1 at address 4096
-    assign q_dmem = (memAddr == 32'd4096) ? ja_1_2_input : 
+    assign q_dmem = (memAddr == 32'd10) ? ja_1_2_input : 
                     (io_read == 1'b1) ? SW_Q : memDataOut;
 
     // Register the SW input
     always @(negedge clk_25) begin
         SW_M <= SW;
         SW_Q <= SW_M; 
+        ja_12_reg <= {30'd0, JA2, JA1};
     end
 
     // Output value to LEDs on a write to address 4097
     always @(posedge clk_25) begin
         if (io_write == 1'b1) begin
+            //LED <= {memDataIn[15:5], 1'd1, 1'd0, 1'd1, JA2, JA1};
             LED <= memDataIn[15:0];
         end
     end
+    
+    //assign memDataIn = {27'd0, 1'd1, 1'd0, 1'd1, JA2, JA1};
 
     // ADD YOUR MEMORY FILE HERE
-    localparam INSTR_FILE = "left_assembly";
+    localparam INSTR_FILE = "new_assembly";
     
     // Main Processing Unit
     processor CPU(

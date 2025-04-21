@@ -1,119 +1,145 @@
 `timescale 1ns / 1ps
 /**
- *
- * READ THIS DESCRIPTION:
- *
- * This is the Wrapper module that will serve as the header file combining your processor,
- * RegFile and Memory elements together.
- *
- * This file will be used to generate the bitstream to upload to the FPGA.
- * We have provided a sibling file, Wrapper_tb.v so that you can test your processor's functionality.
- *
- * You are allowed to make changes to the Wrapper files for your own testing, but your processor.v
- * and memory modules must work with this Wrapper interface for grading.
- *
- * Refer to Lab 5 documents for details on memory interface. `imem` and `dmem` take 12-bit addresses
- * and store 32-bit values. Memory receives a single clock.
- *
- * Change the INSTR_FILE line below to match your assembled program.
- *
- **/
+ * Wrapper module to integrate processor, memory, regfile, and control logic.
+ * Modify INSTR_FILE to point to your test program.
+ */
 
 module Wrapper (
     input CLK100MHZ,
     input reset,
     input JA7, JA8,
-    input JD2,         // Button to start game
-    input JC1, JC2, JC3, JC4, JD1,
-    output JB1, JB2, JB3, JB4,
-    output JA1, JA2, JA3, JA4,
-    output JB7
+    input [15:0] SW,
+    input JD2, // start game
+    input JC1, JC2, JC3, JC4, JD1, // joystick + claw controls
+    output JB1, JB2, JB3, JB4, // motor outputs
+    output JA1, JA2, JA3, JA4, // motor outputs
+    output JB7, // claw drop output
+    output LED0, LED1, LED2, LED3, LED4, // joystick direction LEDs
+    output claw_close // output to close claw
 );
 
-// ================= CLOCK =================
-    wire clock = CLK100MHZ;
+    wire [31:0] counter_x, counter_y;
+    wire game_over_x, game_over_y, game_over;
+    and a(game_over, game_over_x, game_over_y);
 
-// ================= CLAW MOVEMENT MODULES =================
-    wire claw_up;
+    wire claw_up, claw_close_blah;
 
-    claw_movement claw_left_right (
+    // X and Y movement modules
+    claw_movement claw_left_right(
         .CLK100MHZ(CLK100MHZ), .stopper_signal(JA8),
         .forwards(JC4), .backwards(JC3),
         .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4),
-        .start_game(JD2), .claw_dropped(JD1), .claw_up(claw_up)
+        .start_game(JD2), .claw_dropped(JD1),
+        .claw_up(claw_up), .counter(counter_x), .game_over(game_over_x)
     );
 
-    claw_movement claw_forwards_backwards (
+    claw_movement claw_forwards_backwards(
         .CLK100MHZ(CLK100MHZ), .stopper_signal(JA7),
         .forwards(JC1), .backwards(JC2),
         .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4),
-        .start_game(JD2), .claw_dropped(JD1), .claw_up(claw_up)
+        .start_game(JD2), .claw_dropped(JD1),
+        .claw_up(claw_up), .counter(counter_y), .game_over(game_over_y)
     );
 
-    claw_drop blaaah (
+    claw_drop blaaah(
         .CLK100MHZ(CLK100MHZ), .go(JD1), .reset(reset),
-        .jb1(JB7), .claw_up(claw_up)
+        .jb1(JB7), .claw_up(claw_up), .claw_close(claw_close_blah)
     );
 
-// ================= WIRES FOR PROCESSOR INTERFACES =================
+
+    wire clk_50;
+    wire locked;
+    
+    clk_wiz_0 pll(.clk_out1(clk_50), .reset(reset), .locked(locked), .clk_in1(CLK100MHZ));
+    
+    wire clk25;
+    wire locked2;
+    clk_wiz_4 pll3(.clk_out1(clk6), .reset(reset), .locked(locked2), .clk_in1(CLK100MHZ));
+    //clk_wiz_2 pll2(.clk_out1(clk_50), .reset(reset), .locked(locked), .clk_in1(CLK100MHZ));
+    assign claw_close = claw_close_blah;
+
+    // CPU <-> Memory signals
     wire rwe, mwe;
     wire [4:0] rd, rs1, rs2;
     wire [31:0] instAddr, instData;
     wire [31:0] rData, regA, regB;
     wire [31:0] memAddr, memDataIn, memDataOut;
 
-// ================= INSTRUCTION FILE TO LOAD =================
-    localparam INSTR_FILE = "claw_machine"; // Change this to match your .mem file name
+    // Register file
+    regfile RegisterFile(
+        .clock(clk6), .ctrl_reset(reset),
+        .ctrl_writeEnable(rwe),
+        .ctrl_writeReg(rd),
+        .ctrl_readRegA(rs1), .ctrl_readRegB(rs2),
+        .data_writeReg(rData),
+        .data_readRegA(regA), .data_readRegB(regB)
+    );
 
-// ================= JOYSTICK CONTROL SIGNALS TO MEMORY =================
-    wire [31:0] control_bits;
-    wire [31:0] control_addr = 32'd1000;
-    wire [11:0] control_addr_short = control_addr[11:0];
+    // Register to LED display logic based on rs1
+    assign LED0 = (rs1 == 5'd13); // Left
+    assign LED1 = (rs1 == 5'd6);  // Right
+    assign LED2 = (rs1 == 5'd14); // Forwards
+    assign LED3 = (rs1 == 5'd15); // Backwards
+    assign LED4 = (rs1 == 5'd17); // Claw
 
-    // Compose control bits from inputs (bit 4: JD1 claw, bits 3–0: directional)
-    assign control_bits = {27'b0, JD1, JC4, JC3, JC1, JC2};
+    // Memory-mapped I/O
+    wire io_read  = (memAddr == 32'd1000);
+    wire io_write = (memAddr == 32'd4097);
 
-    // Enable write to address 1000 if any control signal is active
+    reg [15:0] SW_M, SW_Q;
+    reg [15:0] LED_reg;
+
+    always @(negedge CLK100MHZ) begin
+        SW_M <= SW;
+        SW_Q <= SW_M;
+    end
+
+    always @(posedge CLK100MHZ) begin
+        if (io_write)
+            LED_reg <= memDataIn[15:0];
+    end
+
+    wire [31:0] memDataOut_from_RAM;
+    assign memDataOut = (io_read) ? {16'b0, SW_Q} : memDataOut_from_RAM;
+
+    // RAM with joystick signal injection
     wire joystick_write_enable = JD1 | JD2 | JC1 | JC2 | JC3 | JC4;
+    wire [31:0] control_bits = {27'b0, JD1, JC4, JC3, JC1, JC2};
 
-// ================= MAIN PROCESSING UNIT =================
-    processor CPU (
-        .clock(clock), .reset(reset),
+    RAM ProcMem(
+        .clk(clk6),
+        //.wEn(joystick_write_enable ? 1'b1 : mwe),
+        .addr(memAddr[11:0]),
+        .dataIn(joystick_write_enable ? control_bits : memDataIn),
+        .dataOut(memDataOut_from_RAM)
+    );
 
-        // ROM
+    // Instruction ROM
+    localparam INSTR_FILE = "claw_machine_PLEASE";
+    ROM #(.MEMFILE({INSTR_FILE, ".mem"})) InstMem(
+        .clk(clk6),
+        .addr(instAddr[11:0]),
+        .dataOut(instData)
+    );
+
+    // CPU instantiation
+    processor CPU(
+        .clock(clk6), .reset(reset),
+
+        // Instruction memory
         .address_imem(instAddr), .q_imem(instData),
 
         // Regfile
         .ctrl_writeEnable(rwe), .ctrl_writeReg(rd),
         .ctrl_readRegA(rs1), .ctrl_readRegB(rs2),
-        .data_writeReg(rData), .data_readRegA(regA), .data_readRegB(regB),
+        .data_writeReg(rData),
+        .data_readRegA(regA), .data_readRegB(regB),
 
-        // RAM
-        .wren(mwe), .address_dmem(memAddr),
-        .data(memDataIn), .q_dmem(memDataOut)
-    );
-
-// ================= INSTRUCTION MEMORY (ROM) =================
-    ROM #(.MEMFILE({INSTR_FILE, ".mem"})) InstMem (
-        .clk(clock),
-        .addr(instAddr[11:0]),
-        .dataOut(instData)
-    );
-
-// ================= REGISTER FILE =================
-    regfile RegisterFile (
-        .clock(clock), .ctrl_writeEnable(rwe), .ctrl_reset(reset),
-        .ctrl_writeReg(rd), .ctrl_readRegA(rs1), .ctrl_readRegB(rs2),
-        .data_writeReg(rData), .data_readRegA(regA), .data_readRegB(regB)
-    );
-
-// ================= DATA MEMORY (RAM) =================
-    RAM ProcMem (
-        .clk(clock),
-        .wEn(joystick_write_enable ? 1'b1 : mwe),
-        .addr(joystick_write_enable ? control_addr_short : memAddr[11:0]),
-        .dataIn(joystick_write_enable ? control_bits : memDataIn),
-        .dataOut(memDataOut)
+        // Data memory
+        .wren(mwe),
+        .address_dmem(memAddr),
+        .data(memDataIn),
+        .q_dmem(memDataOut)
     );
 
 endmodule

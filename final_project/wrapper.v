@@ -24,71 +24,46 @@
  *
  **/
 
-module Wrapper (input CLK100MHZ,
-    input reset,
-//    input [15:0] SW, 
-    input JA8, input JC4, input JC3, input JD2, output JA1, output JA2, output JA3, output JA4,
-    input JD1, JC1, JC2,
-    output reg LED0, output reg LED1, output reg LED2, 
-    output LED3, 
-    output LED4);
-    
-
+module Wrapper (
+    input clk_100mhz,
+    input BTNU, 
+    input [15:0] SW,
+    output reg [15:0] LED);
+    wire clock, reset;
+    assign clock = clk_100mhz;
+    assign reset = BTNU; 
 	wire rwe, mwe;
 	wire[4:0] rd, rs1, rs2;
 	wire[31:0] instAddr, instData, 
 		rData, regA, regB,
-		memAddr, memDataIn, memDataOut, q_dmem, reg6, reg6_m;
+		memAddr, memDataIn, memDataOut, q_dmem, data;
+    reg [15:0] SW_Q, SW_M;  
     
-    wire locked, clk_25, clock;
-    clk_wiz_0 pll(clk_25, 1'b0, locked, CLK100MHZ);
-    assign clock = clk_25;
+    wire clk_25, locked;
+    clk_wiz_0 pll(clk_25, 1'b0, locked, clk_100mhz); 
     
-    wire io_read, poop;
-    assign io_read = 1'b0;
-    wire io_write;
-    assign io_write = (memAddr[11:0] == 12'd6) && mwe == 1'b1;
+    wire io_read, io_write;
     
-    wire [31:0] control_bits;
-    assign control_bits = {27'b0, JD1, JC4, JC3, JC1, JC2};
-    
-//    assign LED0 = 1'b1;
-//    assign LED1 = memDataIn[0];
-//    assign LED2 = memDataIn[0];
-//    assign LED3 = memDataIn[0];
-//    assign LED4 = memDataIn[0];
-    
-    always @(posedge clock) begin
-     if (io_write) begin
-        //LED <= memDataIn[15:0];
-         LED0 <=1'b1; // right
-         LED1 <= memDataIn[0];  // left
-         
-//         LED3 <= memDataIn[0]; // Backwards
-//         LED4 <= memDataIn[0]; // Claw
-     end
-     LED2 <= reg6_m[0]; // Forwards
-    end
-//    assign LED2 = io_write ? memDataIn[0] : LED2;
-    assign LED3 = reg6_m[0];
-    assign LED4 = poop;
-    //assign q_dmem = io_read ? {16'd0, SW[15:0]} : memDataOut;
-    assign q_dmem = memDataOut;
-    wire[31:0] memDataIn_new  = (memAddr[11:0] == 12'd6) ? control_bits : memDataIn;
-    
-//    claw_movement claw_left_right(
-//        .CLK100MHZ(clock), .stopper_signal(JA8),
-//        .forwards(JC4), .backwards(JC3),
-//        .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4),
-//        .start_game(JD2), .claw_dropped(1'd0),
-//        .claw_up(1'd0)
-//    );
-
+    assign io_read = (memAddr == 32'd4096) ? 1'b1: 1'b0;
+    assign io_write = (memAddr == 32'd4097) ? 1'b1: 1'b0;
+     always @(negedge clk_25) begin
+           SW_M <= SW;
+           SW_Q <= SW_M; 
+       end
+       
+       always @(posedge clk_25) begin
+           if (io_write == 1'b1) begin
+               LED <= memDataIn[15:0];
+           end else begin
+               LED <= LED;
+           end
+       end
+    assign q_dmem = (io_read == 1'b1) ? SW_Q : memDataOut;
 	// ADD YOUR MEMORY FILE HERE
-	localparam INSTR_FILE = "easyish";
+	localparam INSTR_FILE = "timing";
 	
 	// Main Processing Unit
-	processor CPU(.clock(clock), .reset(reset), 
+	processor CPU(.clock(clk_25), .reset(reset), 
 								
 		// ROM
 		.address_imem(instAddr), .q_imem(instData),
@@ -104,23 +79,24 @@ module Wrapper (input CLK100MHZ,
 	
 	// Instruction Memory (ROM)
 	ROM #(.MEMFILE({INSTR_FILE, ".mem"}))
-	InstMem(.clk(clock), 
+	InstMem(.clk(clk_25), 
 		.addr(instAddr[11:0]), 
 		.dataOut(instData));
 	
 	// Register File
-	regfile RegisterFile(.clock(clock), 
+	regfile RegisterFile(.clock(clk_25), 
 		.ctrl_writeEnable(rwe), .ctrl_reset(reset), 
 		.ctrl_writeReg(rd),
 		.ctrl_readRegA(rs1), .ctrl_readRegB(rs2), 
-		.data_writeReg(rData), .data_readRegA(regA), .data_readRegB(regB), .reg6(reg6));
+		.data_writeReg(rData), .data_readRegA(regA), .data_readRegB(regB));
 						
 	// Processor Memory (RAM)
-	RAM ProcMem(.clk(clock), 
+	RAM ProcMem(.clk(clk_25), 
 		.wEn(mwe), 
 		.addr(memAddr[11:0]), 
-		.dataIn(memDataIn_new),
-		.button(reg6_m), .poop(poop),
+		.dataIn(memDataIn), 
 		.dataOut(memDataOut));
+		
+	
 
 endmodule

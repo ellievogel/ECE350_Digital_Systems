@@ -3,13 +3,21 @@ module Wrapper (
     input BTNU, 
     input [15:0] SW,
     output reg [15:0] LED,
-    input JA1, JA2
+    //input JA1, JA2, JA3, JA4, JA7,
+    input JC1, JC2, JC3, JC4, JC7,
+    input JA7, JA8,
+    output JA1, JA2, JA3, JA4,// output to stepper 1
+    output JB1, JB2, JB3, JB4, //output to stepper 2
+    input JC8,
+    // input JC7, //left button to start game
+    output JB7, // output to servo motor
+    output JB8 // output to close the claw
 );
     wire clock, reset;
     assign clock = clk_100mhz;
     assign reset = BTNU; 
     
-    wire rwe, mwe;
+    wire rwe, mwe, claw_up;
     wire[4:0] rd, rs1, rs2;
     wire[31:0] instAddr, instData, 
         rData, regA, regB,
@@ -22,21 +30,21 @@ module Wrapper (
     wire io_read, io_write;
     
     assign io_read = (memAddr == 32'd10) ? 1'b1 : 1'b0;
-    assign io_write = (memAddr == 32'd20) ? 1'b1 : 1'b0;
+    assign io_write = ((memAddr == 32'd20) && mwe) ? 1'b1 : 1'b0;
 
     wire [31:0] ja_1_2_input;
-    reg [31:0] ja_12_reg;
-    assign ja_1_2_input = {30'd0, JA2, JA1};
+
+    assign ja_1_2_input = {27'd0, ~JC7, ~JC4, ~JC3, ~JC2, ~JC1};
     //wire [31:0] ja_1_2_input = {30'b0, 1'b0, 1'b0};
     // Hard-code value 1 at address 4096
     assign q_dmem = (memAddr == 32'd10) ? ja_1_2_input : 
-                    (io_read == 1'b1) ? SW_Q : memDataOut;
+                    (memAddr != 32'd10 && io_read == 1'b1) ? SW_Q : memDataOut;
 
     // Register the SW input
     always @(negedge clk_25) begin
         SW_M <= SW;
         SW_Q <= SW_M; 
-        ja_12_reg <= {30'd0, JA2, JA1};
+        //ja_12_reg <= {30'd0, JA2, JA1};
     end
 
     // Output value to LEDs on a write to address 4097
@@ -47,6 +55,10 @@ module Wrapper (
         end
     end
     
+    
+    claw_movement claw_left_right(.CLK100MHZ(clk_100mhz), .stopper_signal(JA8), .forwards(JC4), .backwards(JC3), .jb1(JA1), .jb2(JA2), .jb3(JA3), .jb4(JA4), .start_game(JC8), .claw_dropped(JC7), .claw_up(claw_up));
+    claw_movement claw_forwards_backwards(.CLK100MHZ(clk_100mhz), .stopper_signal(JA7), .forwards(JC1), .backwards(JC2), .jb1(JB1), .jb2(JB2), .jb3(JB3), .jb4(JB4),.start_game(JC8), .claw_dropped(JC7), .claw_up(claw_up));
+    claw_drop blaaah(.CLK100MHZ(clk_100mhz), .go(JC7), .reset(reset), .jb1(JB7), .claw_up(claw_up), .claw_close(JB8));
     //assign memDataIn = {27'd0, 1'd1, 1'd0, 1'd1, JA2, JA1};
 
     // ADD YOUR MEMORY FILE HERE

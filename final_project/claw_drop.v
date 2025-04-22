@@ -19,7 +19,8 @@ module claw_drop(
     input go,  // single go signal
     input reset,
     output reg jb1,
-    output reg claw_up
+    output reg claw_up,
+    output reg claw_close
     );
     
 
@@ -117,12 +118,19 @@ module claw_drop(
         case (fsm_state)
             FORWARD: begin
                  duty_cycle = 10'd100;
+                 claw_close <= 1'd0;
             end
             BACKWARD: begin
                  duty_cycle = 10'd50;
+                 claw_close <= 1'd1;
             end
-            IDLE, STOP1, DONE: begin
-                 duty_cycle = 10'd0;      
+            IDLE, DONE: begin
+                 duty_cycle = 10'd0;   
+                 claw_close <= 1'd0;   
+            end
+            STOP1: begin
+                duty_cycle = 10'd0;
+                claw_close <= 1'd1;
             end
         endcase
     end

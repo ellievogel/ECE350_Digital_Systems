@@ -26,7 +26,7 @@ module claw_movement(
     always @(posedge CLK100MHZ) begin
         case(fsm_state) 
             OFF: begin
-                if (start_game)
+                if (~start_game)
                     fsm_state <= GAME;
             end
             GAME: begin

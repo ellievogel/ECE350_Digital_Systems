@@ -1,0 +1,31 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Mon Apr 21 22:00:01 2025
+[*]
+[dumpfile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/new_assembly.vcd"
+[dumpfile_mtime] "Mon Apr 21 21:55:04 2025"
+[dumpfile_size] 966530
+[savefile] "/Users/ellievogel/Desktop/350/proc-toolchain-student/test_files/output_files/ihateeverything.gtkw"
+[timestart] 393100
+[size] 1336 600
+[pos] -1 -1
+*-15.675755 547200 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[treeopen] Wrapper_tb.
+[treeopen] Wrapper_tb.RegisterFile.
+[sst_width] 255
+[signals_width] 233
+[sst_expanded] 1
+[sst_vpaned_height] 159
+@24
+Wrapper_tb.RegisterFile.loop1[14].tempwire[31:0]
+Wrapper_tb.RegisterFile.loop1[5].tempwire[31:0]
+@28
+Wrapper_tb.CPU.alu_opcode[4:0]
+@22
+Wrapper_tb.CPU.alu_result[31:0]
+@23
+Wrapper_tb.CPU.final_ALU_A[31:0]
+@22
+Wrapper_tb.CPU.final_ALU_B[31:0]
+[pattern_trace] 1
+[pattern_trace] 0
